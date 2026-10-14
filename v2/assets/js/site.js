@@ -61,7 +61,7 @@
     }
   }
 
-  // 3) Mobilní menu (≤ 960 px): fokus zůstává v hlavičce, zbytek stránky je inert
+  // 3) Mobilní menu (≤ 1023 px): fokus zůstává v hlavičce, zbytek stránky je inert
   var header = document.querySelector('.site-header');
   var nav = document.getElementById('menu');
   var burger = header && header.querySelector('.burger');
@@ -81,7 +81,7 @@
     burger.addEventListener('click', function () { setOpen(!isOpen(), true); });
     nav.addEventListener('click', function (e) { if (isOpen() && e.target.closest('a')) setOpen(false, false); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen()) setOpen(false, true); });
-    var mq = window.matchMedia('(min-width: 961px)');
+    var mq = window.matchMedia('(min-width: 1024px)');
     var onWide = function () { if (mq.matches && isOpen()) setOpen(false, false); };
     if (mq.addEventListener) mq.addEventListener('change', onWide); else mq.addListener(onWide);
   }
