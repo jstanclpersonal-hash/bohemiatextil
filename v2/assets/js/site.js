@@ -26,7 +26,12 @@
         });
       };
       var play = function (el) { el.classList.add('is-in'); };
-      var draw = function (el) { el.classList.add('is-drawn'); };
+      var draw = function (el) {
+        // tah ~2 px i u zmenšené kresby: --k = šířka viewBoxu / vykreslená šířka
+        var w = el.getBoundingClientRect().width;
+        if (w) el.style.setProperty('--k', (el.viewBox.baseVal.width / w).toFixed(3));
+        el.classList.add('is-drawn');
+      };
       var later = function (fn) { return function (el) { setTimeout(function () { fn(el); }, 300); }; };
       var countUp = function (box, delay) {
         box.querySelectorAll('[data-count]').forEach(function (el) {

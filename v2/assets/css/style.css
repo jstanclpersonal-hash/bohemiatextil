@@ -372,6 +372,8 @@ abbr[title] { text-decoration: none; }
 }
 .step:last-child::after { display: none; }
 .step h3 { padding-top: 7px; font-size: var(--fs-h3); line-height: 1.3; }
+.step > .pic { display: none; }
+@media (min-width: 768px) { .step > .pic { display: block; width: 48px; height: 48px; margin-bottom: var(--space-3); } .step > .pic + h3 { padding-top: 0; } }
 .step p { margin-top: 6px; color: var(--slate-600); }
 @media (min-width: 1024px) {
   .steps { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--grid-gap); }
@@ -644,6 +646,9 @@ abbr[title] { text-decoration: none; }
 .footer-ids div { display: flex; gap: var(--space-2); min-height: 32px; align-items: center; }
 .footer-ids dt { color: var(--slate-300); }
 .footer-ids dd { color: #fff; font-variant-numeric: tabular-nums; }
+.ares-link { display: inline-block; padding-block: 6px; margin-left: 6px; font-size: var(--fs-small); color: var(--blue-600); }
+.site-footer .ares-link { color: var(--blue-300); }
+.facts-card .ares-link { margin-left: 0; }
 .site-footer__bottom {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 var(--space-5);
   padding-block: var(--space-3); border-top: 1px solid var(--line-dark);
@@ -707,6 +712,8 @@ abbr[title] { text-decoration: none; }
   border-bottom: 1px solid var(--line);
 }
 .card__art .ill { width: 160px; height: 112px; }
+.card__sym { display: none; width: 40px; height: 40px; }
+.service__title .pic { flex: none; width: 48px; height: 48px; }
 .card--spot .card__body { display: flex; flex-direction: column; flex: 1; padding: 22px 24px 24px; }
 @media (min-width: 768px) { .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1200px) { .services-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
@@ -722,10 +729,11 @@ abbr[title] { text-decoration: none; }
   height: 120px; margin: -28px -28px 24px;
   background: var(--blue-50); border-bottom: 1px solid var(--line); border-radius: var(--radius-card) var(--radius-card) 0 0;
 }
-.mat-card__swatch .sw { width: 88px; height: 88px; }
+.mat-card__swatch .sw { width: 96px; height: 96px; }
+/* text visacího štítku: štítek je ve vzorníku (96 × 96) na x 60–94, y 4–22 (dírka vlevo); vzorník je v okně na středu, 12 px od horní hrany */
 .sw-label {
-  position: absolute; left: 50%; top: calc(50% - 4px); transform: translate(-50%, -50%);
-  font: 700 .75rem/1 var(--font-head); letter-spacing: .04em; color: var(--ink);
+  position: absolute; left: calc(50% + 33.5px); top: 25px; transform: translate(-50%, -50%);
+  font: 700 .625rem/1 var(--font-head); letter-spacing: .04em; color: var(--ink);
 }
 
 /* Použití: fotopodklad + dlaždice s ilustracemi (R4-05) */
@@ -836,6 +844,7 @@ abbr[title] { text-decoration: none; }
   padding: 1px 6px; border-radius: 4px; background: var(--surface);
   font: 600 .8125rem/1.3 var(--font-body); color: var(--ink); white-space: nowrap;
 }
+.dim--right { transform: translate(0, -50%); }
 .diagram__legend { display: flex; flex-wrap: wrap; gap: 4px var(--space-5); margin: var(--space-3) 0 0; padding: 0; list-style: none; font-size: var(--fs-small); color: var(--ink); }
 p.diagram__legend { color: var(--slate-600); }
 .diagram__legend li { display: flex; align-items: center; gap: 8px; }
@@ -860,7 +869,10 @@ p.diagram__legend { color: var(--slate-600); }
 
 /* Laser – hlavička s fotkou */
 .page-head--split .page-head__inner { display: grid; gap: var(--space-6); align-items: center; }
-.page-head__media { position: relative; }
+.page-head__media { position: relative; isolation: isolate; }
+.page-head__media .page-head__mark { right: 24px; top: -48px; margin: 0; width: 180px; height: 180px; z-index: -1; }
+.page-head__media img { position: relative; }
+@media (min-width: 768px) { .page-head__media .page-head__mark { width: 240px; height: 240px; top: -72px; right: 32px; margin: 0; } }
 .page-head__media img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); }
 .page-head--about .page-head__media img { object-position: 30% 40%; }
 @media (max-width: 1023px) { .page-head--about .page-head__media img { max-height: 220px; } }
@@ -992,7 +1004,9 @@ p.diagram__legend { color: var(--slate-600); }
   /* ilustrované karty služeb: spot 56 px vlevo od nadpisu, šipka vpravo, text pod nimi */
   .card--spot { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; column-gap: var(--space-3); align-items: center; padding: 16px 20px 20px; }
   .card--spot .card__art { width: 56px; height: 56px; border: 0; border-radius: 10px; }
-  .card--spot .card__art .ill { width: 50px; height: 35px; }
+  .card--spot .card__art .ill { display: none; }
+  .card--spot .card__sym { display: block; }
+  .service__title .pic { width: 40px; height: 40px; }
   .card--spot .card__body { display: contents; }
   .card--spot h3 { grid-column: 2; }
   .card--spot .card__body > p { grid-column: 1 / -1; margin-top: 8px; }
@@ -1042,7 +1056,11 @@ p.diagram__legend { color: var(--slate-600); }
     position: absolute !important; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
   }
   /* kotvy služeb v jednom vodorovně posuvném řádku */
-  .anchor-nav ul { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scrollbar-width: none; }
+  .anchor-nav ul {
+    flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scrollbar-width: none;
+    scroll-padding-inline: 16px;
+    -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent);
+  }
   .anchor-nav li { flex: none; }
   .band__media { aspect-ratio: 16 / 9; }
   .band__inner { padding-bottom: var(--space-6); }
@@ -1058,7 +1076,7 @@ p.diagram__legend { color: var(--slate-600); }
   .footer-ids { display: flex; flex-wrap: wrap; gap: 0 var(--space-5); }
 
   /* Služby: menší vertikální rozestupy */
-  .service { padding-block: var(--space-5); gap: var(--space-3); }
+  .service { padding-block: 20px; gap: var(--space-3); }
   .service__body p { font-size: var(--fs-body); }
   .params dl > div:has(.params__text) { grid-template-columns: 1fr; gap: 2px; }
   .service__title { gap: var(--space-3); }
@@ -1172,16 +1190,11 @@ select.input {
   .js-reveal .steps[data-anim]::before { transform: scaleX(0); }
   .js-reveal .steps[data-anim] .step::after { transform: scaleY(0); }
   .js-reveal .steps[data-anim] .step__num { opacity: 0; transform: scale(.6); }
-  .js-reveal .steps[data-anim] .step > :not(.step__num) { opacity: 0; transform: translateY(8px); }
   .js-reveal .steps.is-in::before { transform: none; transition: transform var(--dur-4) var(--ease-in-out); }
   .js-reveal .steps.is-in .step::after { transform: none; transition: transform 360ms var(--ease-in-out) calc(240ms + var(--i, 0) * 180ms); }
   .js-reveal .steps.is-in .step__num {
     opacity: 1; transform: none;
     transition: opacity 320ms var(--ease-out), transform 320ms var(--ease-out); transition-delay: calc(100ms + var(--i, 0) * 180ms);
-  }
-  .js-reveal .steps.is-in .step > :not(.step__num) {
-    opacity: 1; transform: none;
-    transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out); transition-delay: calc(180ms + var(--i, 0) * 180ms);
   }
 
   /* loga odběratelů: jen průhlednost, rozestup 80 ms */
@@ -1207,6 +1220,9 @@ select.input {
 /* kreslení ilustrací tahem (od 768 px, kde se kreslí v měřítku ~1 : 1) */
 @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
   .js-draw .ill .draw { vector-effect: none; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .js-draw .ill .o.draw, .js-draw .ill .a.draw { stroke-width: calc(2 * var(--k, 1)); }
+  .js-draw .ill .t.draw { stroke-width: calc(1.5 * var(--k, 1)); }
+  .js-draw .ill .m.draw, .js-draw .ill .k.draw { stroke-width: calc(1 * var(--k, 1)); }
   .js-draw .ill .fill { opacity: 0; }
   .js-draw .ill.is-drawn .draw { stroke-dashoffset: 0; transition: stroke-dashoffset var(--dur-4) var(--ease-out); }
   .js-draw .ill.is-drawn .draw.acc { transition-delay: 300ms; }
