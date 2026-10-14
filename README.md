@@ -19,6 +19,13 @@ Statická kopie webu www.bohemiatextil.cz (původně na Wixu). Čisté HTML + CS
 
 Hlavička a patička jsou v každém HTML souboru zvlášť – při změně (např. telefonu) je potřeba upravit všech 7 stránek.
 
+## Animace
+
+Obsah plynule najíždí při scrollování. Animuje se každý prvek s atributem `data-reveal`
+(`data-reveal="fade"` = jen prolnutí, `data-reveal="left"` = zleva) a všichni přímí potomci
+prvku s `data-stagger` (najíždějí postupně jeden po druhém). Nový blok tedy stačí označit
+atributem. Lidé se zapnutým „omezit pohyb" v systému animace neuvidí.
+
 ## Kontaktní formulář
 
 Formulář posílá zprávy přes službu [FormSubmit](https://formsubmit.co) na `vaclav.stancl@tiscali.cz` (adresa je v `kontakt.html`, atributy `action` a `data-endpoint`).

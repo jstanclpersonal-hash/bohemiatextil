@@ -20,6 +20,7 @@
   <link rel="preload" href="assets/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/figtree-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/style.css">
+  <script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-reveal');window.__rvT=setTimeout(function(){document.documentElement.classList.remove('js-reveal')},4000)}</script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Bohemia Textil", "url": "https://www.bohemiatextil.cz/", "logo": "https://www.bohemiatextil.cz/icon-512.png", "email": "vaclav.stancl@tiscali.cz", "telephone": "+420603216998", "vatID": "CZ6710060258", "taxID": "64250938", "founder": "Ing. Václav Štancl", "address": {"@type": "PostalAddress", "streetAddress": "Skořenice 134", "postalCode": "565 01", "addressLocality": "Choceň", "addressCountry": "CZ"}}</script>
 </head>
 <body>
@@ -44,13 +45,13 @@
   <main id="obsah" class="">
     <section class="hero has-bg" aria-labelledby="hero-title">
       <div class="bg bg--fixed" aria-hidden="true"><div class="bg__img"></div></div>
-      <h1 id="hero-title">Jsme Váš Spolehlivý Výrobce Technických Tkanin</h1>
-      <p class="hero__lead">Zajistíme vše od prototypu, přes řezání a barevné úpravy až po dopravu</p>
-      <div class="hero__actions">
+      <h1 id="hero-title" data-reveal>Jsme Váš Spolehlivý Výrobce Technických Tkanin</h1>
+      <p class="hero__lead" data-reveal>Zajistíme vše od prototypu, přes řezání a barevné úpravy až po dopravu</p>
+      <div class="hero__actions" data-reveal>
         <a class="btn btn--blue" href="kontakt">Chci Poptat</a>
         <a class="btn btn--dark" href="materialy">Materiály</a>
       </div>
-      <div class="features">
+      <div class="features" data-stagger>
         <div class="feature"><h2>Spolehlivost</h2><p>Spolehlivost je u nás<br> na prvním místě</p></div>
         <div class="feature"><h2>Včasné dodání</h2><p>Přes dodací termíny<br> u nás nejede vlak</p></div>
         <div class="feature"><h2>Kvalita</h2><p>Česká kvalitní výroba<br> už 25 let</p></div>
@@ -60,8 +61,8 @@
 
     <section class="clients" aria-labelledby="clients-title">
       <div class="wrap">
-        <h2 class="tab tab--up" id="clients-title">Naše Tkaniny u Společností</h2>
-        <ul class="logo-grid">
+        <h2 class="tab tab--up" id="clients-title" data-reveal>Naše Tkaniny u Společností</h2>
+        <ul class="logo-grid" data-stagger="fade">
           <li><img src="assets/img/skoda.webp" width="181" height="49" alt="Škoda" loading="lazy"></li>
           <li><img src="assets/img/bernard.webp" width="224" height="45" alt="Bernard" loading="lazy"></li>
           <li><img src="assets/img/gumotex.webp" width="202" height="49" alt="Gumotex" loading="lazy"></li>
@@ -72,23 +73,23 @@
 
     <section class="laser has-bg" aria-labelledby="laser-title">
       <div class="bg" aria-hidden="true"><div class="bg__img"></div></div>
-      <p class="tab tab--down">Přesnost a Rychlost na Jednom Místě</p>
-      <h2 class="section-title" id="laser-title">Laserové řezání textilií</h2>
-      <p class="laser__text">Specializujeme se na přesné a kvalitní řezání<br class="d"> různých materiálů, které zaručuje nejen rychlost, ale<br class="d"> také dokonalé výsledky bez poškození textilu.</p>
-      <a class="btn btn--blue btn--lg btn--wide" href="laserove-rezani">Laserové řezání</a>
+      <p class="tab tab--down" data-reveal="fade">Přesnost a Rychlost na Jednom Místě</p>
+      <h2 class="section-title" id="laser-title" data-reveal>Laserové řezání textilií</h2>
+      <p class="laser__text" data-reveal>Specializujeme se na přesné a kvalitní řezání<br class="d"> různých materiálů, které zaručuje nejen rychlost, ale<br class="d"> také dokonalé výsledky bez poškození textilu.</p>
+      <a class="btn btn--blue btn--lg btn--wide" href="laserove-rezani" data-reveal>Laserové řezání</a>
     </section>
 
     <section class="offer has-bg" aria-labelledby="offer-title">
       <div class="bg bg--fixed" aria-hidden="true"><div class="bg__img"></div></div>
-      <h2 class="tab tab--down" id="offer-title">Co Nabízíme</h2>
-      <p class="offer__text">O nic se nestarejte, zajistíme pro Vás<br class="d"> vše od vývoje tkaniny, přes snování,<br class="d"> tkaní, finální úpravy až po doručení<br class="d"> produktu přímo do Vaší společnosti.</p>
-      <a class="btn btn--blue btn--lg" href="sluzby">Služby</a>
+      <h2 class="tab tab--down" id="offer-title" data-reveal="fade">Co Nabízíme</h2>
+      <p class="offer__text" data-reveal>O nic se nestarejte, zajistíme pro Vás<br class="d"> vše od vývoje tkaniny, přes snování,<br class="d"> tkaní, finální úpravy až po doručení<br class="d"> produktu přímo do Vaší společnosti.</p>
+      <a class="btn btn--blue btn--lg" href="sluzby" data-reveal>Služby</a>
     </section>
 
-    <div class="uses-head"><h2 class="tab tab--up" id="uses-title">Naše Tkaniny Se Používají</h2></div>
+    <div class="uses-head"><h2 class="tab tab--up" id="uses-title" data-reveal>Naše Tkaniny Se Používají</h2></div>
     <section class="uses has-bg" aria-labelledby="uses-title">
       <div class="bg bg--fixed" aria-hidden="true"><div class="bg__img"></div></div>
-      <ul>
+      <ul data-stagger="left">
         <li>V automotivu</li>
         <li>Jako filtrační tkaniny plynů i kapalin</li>
         <li>Pro výrobu slunečníků</li>
@@ -100,7 +101,7 @@
     </section>
   </main>
   <footer class="site-footer">
-    <div class="wrap footer-main">
+    <div class="wrap footer-main" data-stagger>
       <div>
         <h2>Kontakt</h2>
         <ul>

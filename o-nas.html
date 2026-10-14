@@ -20,6 +20,7 @@
   <link rel="preload" href="assets/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/figtree-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/style.css">
+  <script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-reveal');window.__rvT=setTimeout(function(){document.documentElement.classList.remove('js-reveal')},4000)}</script>
 </head>
 <body>
   <a class="skip-link" href="#obsah">Přeskočit na hlavní obsah</a>
@@ -43,8 +44,8 @@
   <main id="obsah" class="page">
     <section class="about">
       <div class="wrap">
-        <h1 class="page-title">Kdo Jsme</h1>
-        <div class="about__box">
+        <h1 class="page-title" data-reveal>Kdo Jsme</h1>
+        <div class="about__box" data-reveal>
           <div class="about__intro">
             <p>Výroba tkanin má v česku dlouholetou tradici a my na ni v roce 1997 navázali.</p>
             <p>Za tuto dobu jsme si vybudovali pověst spolehlivého dodavatele kvalitního zboží. Dodací termíny jsou pro nás svaté a pro jejich dodržení děláme absolutní maximum. Chceme práci zpříjemnit sobě i našim zákazníkům, proto se u nás setkáte s přátelským přístupem a vstřícným jednáním.</p>
@@ -58,7 +59,7 @@
     </section>
   </main>
   <footer class="site-footer">
-    <div class="wrap footer-main">
+    <div class="wrap footer-main" data-stagger>
       <div>
         <h2>Kontakt</h2>
         <ul>

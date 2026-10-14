@@ -1,3 +1,46 @@
+// Plynulé odhalování obsahu při scrollování.
+// Animují se prvky s atributem data-reveal a potomci prvků s data-stagger;
+// co se objeví na obrazovce současně, najede postupně jedno po druhém.
+(function () {
+  var root = document.documentElement;
+  clearTimeout(window.__rvT);
+  if (!root.classList.contains('js-reveal')) return;
+  if (!('IntersectionObserver' in window)) { root.classList.remove('js-reveal'); return; }
+
+  var STEP = 110;      // rozestup mezi prvky (ms)
+  var MAX_STEPS = 6;   // nejdelší čekání = 6 × STEP
+
+  function finish(el) {
+    if (el.classList.contains('rv-done')) return;
+    el.classList.remove('is-in');
+    el.classList.add('rv-done');
+    el.style.removeProperty('--d');
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    var shown = entries
+      .filter(function (e) { return e.isIntersecting; })
+      .map(function (e) { return e.target; })
+      .sort(function (a, b) { return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1; });
+
+    shown.forEach(function (el, i) {
+      io.unobserve(el);
+      var delay = Math.min(i, MAX_STEPS) * STEP;
+      el.style.setProperty('--d', delay + 'ms');
+      el.classList.add('is-in');
+      if (el.parentElement.hasAttribute('data-stagger')) el.parentElement.classList.add('stagger-in');
+      el.addEventListener('animationend', function onEnd(e) {
+        if (e.target !== el || e.pseudoElement) return;
+        el.removeEventListener('animationend', onEnd);
+        finish(el);
+      });
+      setTimeout(function () { finish(el); }, delay + 1500);
+    });
+  }, { rootMargin: '0px 0px -24px 0px' });
+
+  document.querySelectorAll('[data-reveal], [data-stagger] > *').forEach(function (el) { io.observe(el); });
+})();
+
 // Mobilní menu + odeslání kontaktního formuláře
 (function () {
   var nav = document.getElementById('menu');
