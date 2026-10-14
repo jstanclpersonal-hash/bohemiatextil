@@ -738,7 +738,6 @@ abbr[title] { text-decoration: none; }
   .compare th, .compare td { height: 44px; padding: 10px 12px; }
   .compare th:first-child { width: 7.5rem; font-size: var(--fs-small); line-height: 1.35; }
   .compare thead th { font-size: var(--fs-small); }
-  .compare__extra { display: none; } /* bavlna má tyto vlastnosti ve své kartě nad tabulkou */
 }
 .compare .chip { margin-right: 6px; }
 .table-note { margin-top: var(--space-3); font-size: var(--fs-small); color: var(--slate-600); }
@@ -832,6 +831,7 @@ abbr[title] { text-decoration: none; }
   .card--icon > .card__more { grid-column: 3; grid-row: 1; margin: 0; padding: 0; }
   .card--icon > .card__more .card__more-label { display: none; }
   .card--icon > .card__more .icon { width: 20px; height: 20px; }
+  .card--media { padding: 0; } /* obrázek přes celou šíři karty, text odsazený stejně jako u ostatních karet */
   .card--media .card__body { display: grid; padding: 20px; }
   .card--media .card__img { aspect-ratio: 16 / 9; max-height: 160px; }
 
