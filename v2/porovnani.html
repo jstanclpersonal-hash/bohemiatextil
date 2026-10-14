@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Porovnání verzí | Bohemia Textil</title>
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <style>
+    :root { --bg: #eef1f6; --panel: #fff; --ink: #0b1220; --muted: #5b6577; --line: #d5dbe5; --blue: #2f5bff; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body { background: var(--bg); color: var(--ink); font: 15px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; display: flex; flex-direction: column; }
+    header { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--line); }
+    h1 { font-size: 16px; margin: 0 8px 0 0; }
+    .group { display: flex; flex-wrap: wrap; gap: 4px; }
+    button { font: inherit; padding: 6px 12px; min-height: 36px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); color: var(--ink); cursor: pointer; }
+    button[aria-pressed="true"] { background: var(--blue); border-color: var(--blue); color: #fff; }
+    button:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+    .views { display: none; }
+    main { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; min-height: 0; }
+    .col { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+    .col h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 6px; display: flex; justify-content: space-between; }
+    .col h2 a { color: var(--blue); text-transform: none; letter-spacing: 0; }
+    .frame { flex: 1; position: relative; overflow: hidden; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+    iframe { position: absolute; top: 0; left: 50%; border: 0; transform-origin: top center; background: #fff; }
+    @media (max-width: 899px) {
+      .views { display: flex; }
+      main { grid-template-columns: 1fr; }
+      main[data-show="old"] .col--new, main[data-show="new"] .col--old { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Původní web × nový návrh</h1>
+    <div class="group" id="pages" role="group" aria-label="Stránka">
+      <button type="button" data-page="" aria-pressed="true">Domů</button>
+      <button type="button" data-page="sluzby" aria-pressed="false">Služby</button>
+      <button type="button" data-page="laserove-rezani" aria-pressed="false">Laserové řezání</button>
+      <button type="button" data-page="materialy" aria-pressed="false">Materiály</button>
+      <button type="button" data-page="o-nas" aria-pressed="false">O nás</button>
+      <button type="button" data-page="kontakt" aria-pressed="false">Kontakt</button>
+      <button type="button" data-page="ochrana-soukromi" aria-pressed="false">Ochrana soukromí</button>
+    </div>
+    <div class="group" id="devices" role="group" aria-label="Zařízení">
+      <button type="button" data-width="1440" aria-pressed="true">Počítač</button>
+      <button type="button" data-width="390" aria-pressed="false">Mobil</button>
+    </div>
+    <div class="group views" id="views" role="group" aria-label="Verze">
+      <button type="button" data-show="old" aria-pressed="false">Původní</button>
+      <button type="button" data-show="new" aria-pressed="true">Nový</button>
+    </div>
+  </header>
+  <main id="main" data-show="new">
+    <section class="col col--old">
+      <h2>Původní <a id="link-old" href="../" target="_blank" rel="noopener">otevřít ↗</a></h2>
+      <div class="frame"><iframe id="old" title="Původní web" src="../"></iframe></div>
+    </section>
+    <section class="col col--new">
+      <h2>Nový návrh (v2) <a id="link-new" href="./" target="_blank" rel="noopener">otevřít ↗</a></h2>
+      <div class="frame"><iframe id="new" title="Nový návrh webu" src="./"></iframe></div>
+    </section>
+  </main>
+  <script>
+    (function () {
+      var state = { page: '', width: 1440 };
+      var frames = [document.getElementById('old'), document.getElementById('new')];
+      var prefixes = ['../', './'];
+      var links = [document.getElementById('link-old'), document.getElementById('link-new')];
+
+      function press(group, btn) {
+        group.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+      }
+      function layout() {
+        frames.forEach(function (f) {
+          var box = f.parentElement.getBoundingClientRect();
+          var scale = Math.min(1, box.width / state.width);
+          f.style.width = state.width + 'px';
+          f.style.height = (box.height / scale) + 'px';
+          f.style.transform = 'translateX(-50%) scale(' + scale + ')';
+        });
+      }
+      function load() {
+        frames.forEach(function (f, i) {
+          var url = prefixes[i] + state.page;
+          f.src = url;
+          links[i].href = url;
+        });
+      }
+      document.getElementById('pages').addEventListener('click', function (e) {
+        var b = e.target.closest('button'); if (!b) return;
+        press(this, b); state.page = b.dataset.page; load();
+      });
+      document.getElementById('devices').addEventListener('click', function (e) {
+        var b = e.target.closest('button'); if (!b) return;
+        press(this, b); state.width = Number(b.dataset.width); layout();
+      });
+      document.getElementById('views').addEventListener('click', function (e) {
+        var b = e.target.closest('button'); if (!b) return;
+        press(this, b); document.getElementById('main').dataset.show = b.dataset.show; layout();
+      });
+      window.addEventListener('resize', layout);
+      layout();
+    })();
+  </script>
+</body>
+</html>

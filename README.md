@@ -19,6 +19,23 @@ Statická kopie webu www.bohemiatextil.cz (původně na Wixu). Čisté HTML + CS
 
 Hlavička a patička jsou v každém HTML souboru zvlášť – při změně (např. telefonu) je potřeba upravit všech 7 stránek.
 
+## Návrh v2 (redesign)
+
+Ve složce `v2/` je nová verze webu, vzniklá ve třech kolech: designér udělal audit, vývojář úpravy zapracoval,
+designér je zkontroloval a dal další zpětnou vazbu. Původní web v kořeni repozitáře zůstává beze změny kvůli srovnání.
+
+- Nová verze: `/v2/`, srovnání obou verzí vedle sebe: `/v2/porovnani`.
+- `v2/` má vlastní `assets/` (nové CSS, JS, ikony, zmenšené obrázky). Hlavička a patička jsou opět v každé stránce zvlášť.
+- Stránky v2 mají `noindex` a `robots.txt` má `Disallow: /v2/`, aby návrh nekonkuroval původnímu webu ve vyhledávačích.
+- Zápisy z jednotlivých kol (audit, kontroly, seznam obsahu k doplnění od majitele) jsou ve složce `_redesign/`
+  (složky s podtržítkem GitHub Pages nepublikuje).
+
+Až bude v2 schválená k nasazení:
+1. Přesunout obsah `v2/` do kořene místo původních stránek (kromě `porovnani.html`).
+2. Odstranit `<meta name="robots" content="noindex">` ze všech stránek a řádek `Disallow: /v2/` z `robots.txt`.
+3. V `kontakt.html` změnit skryté pole `_next` na `https://www.bohemiatextil.cz/kontakt?odeslano=1`.
+4. Zkontrolovat `sitemap.xml` a přesměrování ze starých Wix adres.
+
 ## Animace
 
 Obsah plynule najíždí při scrollování. Animuje se každý prvek s atributem `data-reveal`
