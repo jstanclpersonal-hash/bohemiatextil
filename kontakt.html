@@ -20,6 +20,7 @@
   <link rel="preload" href="assets/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/figtree-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/style.css">
+  <script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-reveal');window.__rvT=setTimeout(function(){document.documentElement.classList.remove('js-reveal')},4000)}</script>
 </head>
 <body>
   <a class="skip-link" href="#obsah">Přeskočit na hlavní obsah</a>
@@ -44,8 +45,8 @@
     <div class="bg bg--fixed" aria-hidden="true"><div class="bg__img"></div></div>
     <section class="contact">
       <div class="wrap">
-        <h1 class="page-title">Kontaktujte Nás</h1>
-        <div class="form-box">
+        <h1 class="page-title" data-reveal>Kontaktujte Nás</h1>
+        <div class="form-box" data-reveal>
           <form id="contact-form" action="https://formsubmit.co/vaclav.stancl@tiscali.cz" method="POST" data-endpoint="https://formsubmit.co/ajax/vaclav.stancl@tiscali.cz">
             <input type="hidden" name="_subject" value="Nová zpráva z webu bohemiatextil.cz">
             <input type="hidden" name="_template" value="table">
@@ -67,12 +68,12 @@
             </div>
           </form>
         </div>
-        <p class="contact__note">Nebo využijte kontaktních informací níže v patičce</p>
+        <p class="contact__note" data-reveal>Nebo využijte kontaktních informací níže v patičce</p>
       </div>
     </section>
   </main>
   <footer class="site-footer">
-    <div class="wrap footer-main">
+    <div class="wrap footer-main" data-stagger>
       <div>
         <h2>Kontakt</h2>
         <ul>
