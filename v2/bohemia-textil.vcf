@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=UTF-8:Štancl;Václav;;Ing.;
+FN;CHARSET=UTF-8:Ing. Václav Štancl
+ORG;CHARSET=UTF-8:Bohemia Textil
+TEL;TYPE=WORK,VOICE:+420603216998
+EMAIL;TYPE=INTERNET,WORK:vaclav.stancl@tiscali.cz
+ADR;TYPE=WORK;CHARSET=UTF-8:;;Skořenice 134;Choceň;;565 01;Česká republika
+URL:https://www.bohemiatextil.cz/
+NOTE;CHARSET=UTF-8:IČ 64250938, DIČ CZ6710060258
+END:VCARD
