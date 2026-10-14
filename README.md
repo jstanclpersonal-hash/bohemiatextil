@@ -34,7 +34,12 @@ Až bude v2 schválená k nasazení:
 1. Přesunout obsah `v2/` do kořene místo původních stránek (kromě `porovnani.html`).
 2. Odstranit `<meta name="robots" content="noindex">` ze všech stránek a řádek `Disallow: /v2/` z `robots.txt`.
 3. V `kontakt.html` změnit skryté pole `_next` na `https://www.bohemiatextil.cz/kontakt?odeslano=1`.
-4. Zkontrolovat `sitemap.xml` a přesměrování ze starých Wix adres.
+4. Ve všech stránkách změnit `og:image` z `…/v2/assets/img/og.jpg` na `…/assets/img/og.jpg`.
+5. Zkontrolovat `sitemap.xml` a přesměrování ze starých Wix adres.
+6. Projet stránky nástroji axe a Lighthouse v Chromu.
+
+Vizuály v2: vlastní vektorové ilustrace (`v2/assets/img/illustrations.svg` a inline SVG ve stránkách) a fotky
+z původního webu v tmavomodrém tónu. Animace jsou jen v CSS/JS bez knihoven a při systémovém „omezit pohyb“ se vypnou.
 
 ## Animace
 
