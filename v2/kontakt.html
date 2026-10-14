@@ -40,13 +40,13 @@
           <li><a href="kontakt" aria-current="page">Kontakt</a></li>
         </ul>
         <div class="site-nav__extra">
-          <a class="btn btn--primary btn--lg btn--block" href="kontakt">Nezávazná poptávka</a>
+          <a class="btn btn--primary btn--lg btn--block" href="#poptavka">Nezávazná poptávka</a>
           <a class="contact-link" href="tel:+420603216998" aria-label="Zavolat +420 603 216 998"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#phone"/></svg><span>+420&nbsp;603&nbsp;216&nbsp;998</span></a>
           <a class="contact-link" href="mailto:vaclav.stancl@tiscali.cz"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#mail"/></svg><span>vaclav.stancl@tiscali.cz</span></a>
         </div>
       </nav>
       <a class="header-phone" href="tel:+420603216998" aria-label="Zavolat +420 603 216 998"><svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#phone"/></svg><span class="header-phone__num">+420&nbsp;603&nbsp;216&nbsp;998</span></a>
-      <a class="btn btn--primary header-cta" href="kontakt">Nezávazná poptávka</a>
+      <a class="btn btn--primary header-cta" href="#poptavka">Nezávazná poptávka</a>
       <button class="burger" type="button" aria-controls="menu" aria-expanded="false" aria-label="Menu"><span class="burger__box" aria-hidden="true"></span></button>
     </div>
   </header>
@@ -63,9 +63,9 @@
       </div>
     </div>
 
-    <section class="section section--light contact-section" aria-label="Poptávkový formulář a kontaktní údaje">
+    <section class="section section--light section--tight-top" aria-label="Poptávkový formulář a kontaktní údaje">
       <div class="container contact-grid">
-        <div class="card form-card">
+        <div class="card form-card" id="poptavka">
           <div id="form-view">
             <h2 class="form-card__title" id="form-title">Poptávkový formulář</h2>
             <p class="form-card__intro">Pole označená jako povinná je nutné vyplnit.</p>
@@ -117,7 +117,7 @@
                 <div class="field">
                   <label for="f-qty">Přibližné množství</label>
                   <input class="input" id="f-qty" name="Množství" type="text" aria-describedby="f-qty-hint">
-                  <p class="field__hint" id="f-qty-hint">Např. 1&nbsp;500&nbsp;m. Minimální zakázka tkaní je 500&nbsp;m.</p>
+                  <p class="field__hint" id="f-qty-hint">Např. 1&nbsp;500&nbsp;m. Minimální zakázka tkaní je&nbsp;500&nbsp;m.</p>
                 </div>
                 <div class="field field--full">
                   <label for="f-message">Popis poptávky</label>
@@ -178,7 +178,6 @@
       <div class="site-footer__brand">
         <a class="site-logo" href="./"><img src="assets/img/logo.webp" width="168" height="55" alt="Bohemia Textil – úvodní stránka" loading="lazy" decoding="async"></a>
         <p>Český výrobce technických tkanin od&nbsp;roku&nbsp;1997.</p>
-        <a class="btn btn--primary" href="kontakt">Nezávazná poptávka</a>
       </div>
       <div>
         <h2 class="footer-title">Kontakt</h2>

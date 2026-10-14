@@ -62,7 +62,7 @@
     <section class="section section--light" aria-labelledby="mat-title">
       <div class="container">
         <h2 class="visually-hidden" id="mat-title">Přehled materiálů</h2>
-        <div class="grid grid--4" data-stagger>
+        <div class="grid grid--4 mat-grid" data-stagger>
           <article class="card mat-card" id="polyester">
             <h3>Polyester</h3>
             <ul class="chips"><li class="chip">vysoká pevnost</li><li class="chip">odolnost vůči kyselinám</li><li class="chip">levnější materiál</li></ul>
@@ -77,14 +77,14 @@
           </article>
           <article class="card mat-card" id="bavlna">
             <h3>Bavlna</h3>
-            <ul class="chips"><li class="chip">přírodní materiál</li><li class="chip">vysoká savost</li><li class="chip">snadné barvení</li></ul>
+            <ul class="chips"><li class="chip">přírodní materiál</li><li class="chip">příjemný na omak</li><li class="chip">vysoká savost</li><li class="chip">snadné barvení</li></ul>
           </article>
         </div>
 
         <div class="table-block" id="srovnani">
           <div data-reveal>
             <h2 id="compare-title">Srovnání vlastností</h2>
-            <p class="table-block__lead">Vlastnosti materiálů vedle sebe. Nejlepší hodnota v&nbsp;řádku je zvýrazněná.</p>
+            <p class="table-block__lead">Vlastnosti materiálů vedle sebe. Štítkem jsou označené vlastnosti, ve kterých materiál vyniká.</p>
           </div>
           <p class="table-hint" aria-hidden="true">Tabulku lze posunout do strany<svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#arrow-right"/></svg></p>
           <div class="table-scroll" role="region" aria-label="Srovnání materiálů" tabindex="0">
@@ -102,7 +102,7 @@
                 <tr><th scope="row">Hmotnost</th><td>vyšší</td><td>vyšší</td><td>nízká</td><td class="na"><span aria-hidden="true">—</span><span class="visually-hidden">neuvádíme</span></td></tr>
                 <tr><th scope="row">Odolnost vůči slunečnímu záření</th><td class="na"><span aria-hidden="true">—</span><span class="visually-hidden">neuvádíme</span></td><td>vysoká</td><td class="na"><span aria-hidden="true">—</span><span class="visually-hidden">neuvádíme</span></td><td class="na"><span aria-hidden="true">—</span><span class="visually-hidden">neuvádíme</span></td></tr>
                 <tr><th scope="row">Cena</th><td>levnější</td><td>dražší</td><td>levnější</td><td class="na"><span aria-hidden="true">—</span><span class="visually-hidden">neuvádíme</span></td></tr>
-                <tr><th scope="row">Další vlastnosti</th><td class="na"><span aria-hidden="true">—</span><span class="visually-hidden">neuvádíme</span></td><td class="na"><span aria-hidden="true">—</span><span class="visually-hidden">neuvádíme</span></td><td class="na"><span aria-hidden="true">—</span><span class="visually-hidden">neuvádíme</span></td><td>přírodní materiál, příjemný na omak, vysoká savost, snadné barvení</td></tr>
+                <tr class="compare__extra"><th scope="row">Další vlastnosti</th><td class="na"><span aria-hidden="true">—</span><span class="visually-hidden">neuvádíme</span></td><td class="na"><span aria-hidden="true">—</span><span class="visually-hidden">neuvádíme</span></td><td class="na"><span aria-hidden="true">—</span><span class="visually-hidden">neuvádíme</span></td><td>přírodní materiál, příjemný na omak, vysoká savost, snadné barvení</td></tr>
               </tbody>
             </table>
           </div>
@@ -123,8 +123,8 @@
     <section class="cta-band" aria-labelledby="cta-title">
       <div class="container cta-band__inner">
         <div data-reveal>
-          <h2 id="cta-title">Potřebujete poradit s&nbsp;výběrem materiálu?</h2>
-          <p>Napište nám, k&nbsp;čemu bude tkanina sloužit. Navrhneme vhodné materiálové složení i&nbsp;konstrukci tkaniny.</p>
+          <h2 id="cta-title">Máte poptávku?</h2>
+          <p>Napište nám, jakou tkaninu potřebujete – materiál, použití, šíři a&nbsp;množství. Rádi vám pomůžeme najít ideální řešení.</p>
         </div>
         <div class="cta-band__actions">
           <a class="btn btn--on-blue btn--lg" href="kontakt">Nezávazná poptávka<svg class="icon" aria-hidden="true"><use href="assets/img/icons.svg#arrow-right"/></svg></a>
@@ -141,7 +141,6 @@
       <div class="site-footer__brand">
         <a class="site-logo" href="./"><img src="assets/img/logo.webp" width="168" height="55" alt="Bohemia Textil – úvodní stránka" loading="lazy" decoding="async"></a>
         <p>Český výrobce technických tkanin od&nbsp;roku&nbsp;1997.</p>
-        <a class="btn btn--primary" href="kontakt">Nezávazná poptávka</a>
       </div>
       <div>
         <h2 class="footer-title">Kontakt</h2>

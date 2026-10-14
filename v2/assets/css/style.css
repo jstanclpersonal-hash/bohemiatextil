@@ -89,12 +89,13 @@
   --space-8: 64px;
   --space-9: 96px;
   --space-10: 128px;
-  --section-pad: clamp(56px, 7vw, 112px);
-  --head-gap: 28px;
+  --section-pad: clamp(48px, 7vw, 112px);
+  --section-pad-tight: clamp(32px, 4vw, 56px); /* cílová stránka (Kontakt): formulář co nejvýš */
+  --head-gap: 24px;
   --gutter: clamp(16px, 4vw, 40px);
   --container: 1200px;
   --container-narrow: 760px;
-  --grid-gap: 16px;
+  --grid-gap: 12px;
 
   /* tvary a stíny */
   --radius-card: 12px;
@@ -186,6 +187,7 @@ abbr[title] { text-decoration: none; }
 .section--light { background: var(--surface); color: var(--ink); color-scheme: light; }
 .section--white { background: var(--white); color: var(--ink); color-scheme: light; }
 .section--dark { background: var(--navy-900); color: #fff; }
+.section--tight-top { padding-top: var(--section-pad-tight); }
 
 .grid { display: grid; gap: var(--grid-gap); }
 @media (min-width: 600px) {
@@ -203,6 +205,7 @@ abbr[title] { text-decoration: none; }
   font: 700 var(--fs-eyebrow)/1.2 var(--font-head);
   letter-spacing: .08em; text-transform: uppercase;
   color: var(--blue-600);
+  text-wrap: balance;
 }
 .eyebrow::before {
   content: ''; flex: none;
@@ -323,24 +326,25 @@ abbr[title] { text-decoration: none; }
 .chip--best { background: var(--blue-600); color: #fff; font-weight: 600; }
 
 /* faktové dlaždice */
-.facts { display: grid; gap: var(--space-5) var(--space-3); }
+.facts { display: grid; gap: var(--space-5) var(--space-3); align-items: start; }
 @media (min-width: 360px) { .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.fact { display: flex; flex-direction: column; justify-content: flex-end; padding-left: var(--space-3); border-left: 4px solid var(--blue-500); }
+.fact { padding-left: var(--space-3); border-left: 4px solid var(--blue-500); }
 .fact__value {
   display: block;
-  /* na mobilu menší než --fs-stat, aby se „90–200 cm“ vešlo do mřížky 2 × 2 i na 360 px */
-  font: 600 clamp(1.375rem, .9rem + 2vw, 2.5rem)/1.1 var(--font-head);
+  /* všechny hodnoty stejně velké; na mobilu min. 22 px (schváleno v kole 2), aby se „90–200 cm“ vešlo do 2 × 2 od 360 px */
+  font: 600 clamp(1.375rem, .75rem + 2vw, 2.5rem)/1.1 var(--font-head);
   font-variant-numeric: tabular-nums;
   letter-spacing: -.01em;
+  white-space: nowrap;
   color: #fff;
 }
-.fact__value:not(.fact__value--text) { white-space: nowrap; }
-.fact__value--text { font-size: clamp(1.125rem, .95rem + .8vw, 1.75rem); line-height: 1.2; }
+.fact__value--wrap { white-space: normal; text-wrap: balance; }
 .fact__label { display: block; margin-top: 6px; font-size: var(--fs-small); line-height: 1.4; color: var(--slate-300); }
+.fact__label--nowrap { white-space: nowrap; }
 @media (min-width: 768px) { .facts { gap: var(--space-5); } .fact { padding-left: var(--space-4); } }
 @media (min-width: 1024px) {
-  .facts { grid-template-columns: repeat(4, auto); justify-content: space-between; gap: var(--space-6); }
-  .facts--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); justify-content: stretch; }
+  .facts { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-6); }
+  .facts--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 /* postup spolupráce */
@@ -382,7 +386,7 @@ abbr[title] { text-decoration: none; }
 @media (min-width: 1024px) { .clients__inner { grid-template-columns: 3fr 9fr; gap: var(--space-6); } .clients__title { max-width: 22ch; } }
 
 /* CTA pás */
-.cta-band { background: var(--blue-600); color: #fff; padding-block: var(--space-7); --focus: #fff; }
+.cta-band { background: var(--blue-600); color: #fff; padding-block: 40px; --focus: #fff; }
 @media (min-width: 768px) { .cta-band { padding-block: var(--space-8); } }
 .cta-band__inner { display: grid; gap: var(--space-6); }
 .cta-band h2 { font-size: var(--fs-h2); line-height: 1.2; }
@@ -534,7 +538,6 @@ abbr[title] { text-decoration: none; }
 .site-footer { background: var(--navy-950); color: var(--text-on-dark); font-size: .9375rem; border-top: 1px solid var(--line-dark); }
 .site-footer__grid { display: grid; gap: 40px var(--space-6); padding-block: var(--space-8) var(--space-7); }
 .site-footer__brand p { margin-top: var(--space-4); max-width: 30ch; }
-.site-footer__brand .btn { margin-top: var(--space-5); }
 .site-footer .site-logo { display: inline-block; }
 .site-footer .site-logo img { width: 168px; }
 .footer-title {
@@ -561,6 +564,13 @@ abbr[title] { text-decoration: none; }
 }
 .site-footer__bottom a { display: inline-flex; align-items: center; min-height: 44px; color: var(--slate-300); }
 .site-footer__bottom a:hover, .site-footer__bottom a[aria-current="page"] { color: #fff; }
+@media (pointer: fine) {
+  .footer-list li, .footer-list a, .footer-nav a { min-height: 36px; }
+}
+@media (max-width: 767px) {
+  .site-footer__grid { gap: 28px; padding-block: var(--space-7) var(--space-6); }
+  .footer-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-5); }
+}
 @media (min-width: 768px) { .site-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1024px) { .site-footer__grid { grid-template-columns: 1.3fr 1.3fr 1fr 1fr; } }
 
@@ -650,10 +660,16 @@ abbr[title] { text-decoration: none; }
 .service__body p { font-size: var(--fs-lead); line-height: 1.55; max-width: 60ch; }
 .service__body p + p { margin-top: var(--space-3); }
 .service__body .link-arrow { margin-top: var(--space-2); }
+/* boxy s modrým pruhem: pruh jako ::before (rovný, neohýbá se v rozích), box s běžným rámečkem */
+.params, .facts-card, .tip-card, .help-box, .pull-quote { position: relative; }
+.params::before, .facts-card::before, .tip-card::before, .help-box::before, .pull-quote::before {
+  content: ''; position: absolute; left: 0; top: 16px; bottom: 16px;
+  width: 4px; border-radius: 2px; background: var(--blue-500);
+}
 .params {
   align-self: start;
   padding: var(--space-5); border-radius: var(--radius-card);
-  background: var(--surface); border-left: 4px solid var(--blue-500);
+  background: var(--surface); border: 1px solid var(--line);
 }
 .params__title {
   margin-bottom: var(--space-4);
@@ -715,8 +731,15 @@ abbr[title] { text-decoration: none; }
 .compare td { color: var(--ink); }
 .compare th:first-child { position: sticky; left: 0; z-index: 1; width: 150px; background: var(--white); box-shadow: inset -1px 0 0 var(--line); }
 .compare thead th:first-child { background: var(--surface); }
-.compare .na { color: var(--slate-600); }
+.compare .na { color: rgba(90, 100, 120, .6); }
 @media (min-width: 768px) { .compare th:first-child { width: 210px; } }
+@media (max-width: 767px) {
+  .compare { width: 37.5rem; min-width: 0; font-size: .9375rem; }
+  .compare th, .compare td { height: 44px; padding: 10px 12px; }
+  .compare th:first-child { width: 7.5rem; font-size: var(--fs-small); line-height: 1.35; }
+  .compare thead th { font-size: var(--fs-small); }
+  .compare__extra { display: none; } /* bavlna má tyto vlastnosti ve své kartě nad tabulkou */
+}
 .compare .chip { margin-right: 6px; }
 .table-note { margin-top: var(--space-3); font-size: var(--fs-small); color: var(--slate-600); }
 @media (min-width: 768px) { .table-hint { display: none; } }
@@ -725,7 +748,6 @@ abbr[title] { text-decoration: none; }
   display: grid; gap: var(--space-5); align-items: center;
   margin-top: var(--space-8); padding: var(--space-6);
   border-radius: var(--radius-card); background: var(--white); border: 1px solid var(--line);
-  border-left: 4px solid var(--blue-500);
 }
 .help-box h2 { font-size: var(--fs-h3); line-height: 1.3; }
 .help-box p { margin-top: var(--space-2); color: var(--slate-600); max-width: 60ch; }
@@ -733,10 +755,11 @@ abbr[title] { text-decoration: none; }
 
 /* O nás */
 .about-grid { display: grid; gap: var(--space-7); }
-.about-grid .prose p { font-size: var(--fs-lead); line-height: 1.6; }
+.about-grid .prose > p { font-size: var(--fs-lead); line-height: 1.6; }
 .facts-card {
+  align-self: start;
   padding: var(--space-6); border-radius: var(--radius-card);
-  background: var(--surface); border-left: 4px solid var(--blue-500);
+  background: var(--surface); border: 1px solid var(--line);
 }
 .facts-card h2 { font-size: var(--fs-h3); line-height: 1.3; margin-bottom: var(--space-4); }
 .facts-card dl { display: grid; gap: var(--space-3); }
@@ -744,6 +767,16 @@ abbr[title] { text-decoration: none; }
 .facts-card div:last-child { padding-bottom: 0; border-bottom: 0; }
 .facts-card dt { font-size: var(--fs-small); color: var(--slate-600); }
 .facts-card dd { font-weight: 500; }
+@media (min-width: 768px) {
+  .facts-card dl { gap: 0; }
+  .facts-card div { grid-template-columns: 8.5rem minmax(0, 1fr); gap: var(--space-4); padding-block: 12px; }
+  .facts-card div:first-child { padding-top: 0; }
+  .facts-card dt { padding-top: 2px; }
+}
+.pull-quote { margin: var(--space-7) 0 0; padding: var(--space-2) 0 var(--space-2) var(--space-6); }
+.pull-quote::before { top: 0; bottom: 0; }
+.pull-quote__mark { width: 32px; height: 32px; margin-bottom: var(--space-3); color: var(--blue-300); }
+.pull-quote p { font: 600 clamp(1.25rem, 1.1rem + .5vw, 1.5rem)/1.4 var(--font-head); letter-spacing: -.01em; color: var(--ink); text-wrap: balance; }
 @media (min-width: 1024px) { .about-grid { grid-template-columns: 7fr 5fr; gap: var(--space-8); align-items: start; } }
 
 /* Ochrana soukromí */
@@ -761,7 +794,6 @@ abbr[title] { text-decoration: none; }
 .quick-contact { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-top: var(--space-5); }
 .quick-contact .btn { padding-inline: var(--space-3); }
 @media (min-width: 1024px) { .quick-contact { display: none; } }
-.contact-section { padding-top: clamp(32px, 4vw, 56px); }
 .contact-grid { display: grid; gap: var(--space-6); align-items: start; }
 @media (min-width: 1024px) { .contact-grid { grid-template-columns: 7fr 5fr; gap: var(--grid-gap); } }
 .contact-aside { display: grid; gap: var(--grid-gap); }
@@ -781,11 +813,82 @@ abbr[title] { text-decoration: none; }
 .contact-card address .icon { color: var(--slate-600); margin-top: 2px; }
 .contact-card__ids { display: grid; grid-template-columns: auto 1fr; gap: 4px var(--space-4); }
 .contact-card__ids dt { color: var(--slate-600); }
-.tip-card { background: var(--surface); box-shadow: none; border-left: 4px solid var(--blue-500); }
+.tip-card { background: var(--surface); box-shadow: none; }
 .section--light .tip-card { background: var(--white); }
-.tip-card ul { margin-top: var(--space-3); display: grid; gap: var(--space-2); }
+.tip-card ul { margin-top: var(--space-3); padding: 0; list-style: none; display: grid; gap: var(--space-2); }
 .tip-card li { display: flex; gap: 10px; color: var(--ink); }
 .tip-card li .icon { width: 20px; height: 20px; margin-top: 3px; color: var(--blue-600); }
+
+/* Mobil (< 768 px): hustší karty a seznamy, kratší stránky (R2-05) */
+@media (max-width: 767px) {
+  .card { padding: 20px; }
+  /* ikona 40 px vlevo od nadpisu, text pod nimi přes celou šířku, šipka odkazové karty vpravo od nadpisu */
+  .card--icon {
+    display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; column-gap: var(--space-3); align-items: center;
+  }
+  .card--icon > .icon-tile { grid-column: 1; width: 40px; height: 40px; margin: 0; border-radius: 8px; }
+  .card--icon > h3 { grid-column: 2; }
+  .card--icon > p { grid-column: 1 / -1; }
+  .card--icon > .card__more { grid-column: 3; grid-row: 1; margin: 0; padding: 0; }
+  .card--icon > .card__more .card__more-label { display: none; }
+  .card--icon > .card__more .icon { width: 20px; height: 20px; }
+  .card--media .card__body { display: grid; padding: 20px; }
+  .card--media .card__img { aspect-ratio: 16 / 9; max-height: 160px; }
+
+  /* „Proč Bohemia Textil“ a hodnoty na O nás: jedna karta se seznamem oddělený linkami */
+  .values { gap: 0; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+  .values > .card { padding: 16px 20px; background: none; border: 0; border-radius: 0; box-shadow: none; }
+  .values > .card + .card { border-top: 1px solid var(--line); }
+  .values > .card > p { margin-top: 4px; }
+
+  /* použití a materiály: jedna karta se seznamem odděleným linkami */
+  .uses-grid { gap: 0; background: var(--navy-800); border: 1px solid var(--line-dark); border-radius: var(--radius-card); }
+  .use { min-height: 56px; padding: 8px 16px; background: none; border: 0; border-radius: 0; }
+  .use + .use { border-top: 1px solid var(--line-dark); }
+  .use .icon-tile { width: 40px; height: 40px; border-radius: 8px; }
+  .use--cta { margin: 8px; border: 1.5px solid var(--blue-500); border-radius: 10px; }
+  .use + .use--cta { border-top: 1.5px solid var(--blue-500); }
+  .mat-grid { gap: 0; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+  .mat-grid > .card { padding: 16px 20px; background: none; border: 0; border-radius: 0; box-shadow: none; }
+  .mat-grid > .card + .card { border-top: 1px solid var(--line); }
+  .mat-grid .chips { margin-top: var(--space-3); gap: 6px; }
+
+  /* hero a patička */
+  .hero__inner { padding-bottom: var(--space-6); }
+  .hero__facts { padding-block: var(--space-5); }
+  .site-footer__brand p { max-width: none; margin-top: var(--space-3); }
+  .site-footer .site-logo img { width: 128px; }
+  .footer-list li:not(:has(a)) { min-height: 32px; }
+  .clients { padding-block: 32px; }
+  .hero__inner { padding-top: 40px; }
+  .anchor-nav { margin-top: var(--space-5); }
+  .footer-ids { display: flex; flex-wrap: wrap; gap: 0 var(--space-5); }
+
+  .values > .card > h3 { font-size: 1.125rem; }
+
+  /* Služby: menší vertikální rozestupy */
+  .service { padding-block: var(--space-5); gap: var(--space-3); }
+  .service__body p { font-size: var(--fs-body); }
+  .params dl > div:has(.params__text) { grid-template-columns: 1fr; gap: 2px; }
+  .service__title { gap: var(--space-3); }
+  .service__title .icon-tile { width: 40px; height: 40px; border-radius: 8px; }
+  .service__body { margin-top: var(--space-3); }
+  .params { padding: var(--space-4) 20px; }
+  .params__title { margin-bottom: var(--space-3); }
+  .params dl { gap: var(--space-3); }
+  .params dl > div { display: grid; grid-template-columns: minmax(0, 9rem) minmax(0, 1fr); gap: var(--space-3); align-items: baseline; }
+  .params dd { margin-top: 0; font-size: 1.0625rem; }
+  .params dd + dd { grid-column: 2; }
+  .subservices { margin-top: var(--space-4); gap: var(--space-2); }
+  .subservice { padding: var(--space-3); }
+  .step { padding: 0 0 16px 52px; }
+  .step__num { width: 36px; height: 36px; font-size: .9375rem; }
+  .step::after { left: 17px; top: 44px; }
+  .step h3 { padding-top: 6px; font-size: 1.125rem; }
+  .section-foot { margin-top: var(--space-3); }
+  .card--icon > p { margin-top: 6px; }
+  .step p { margin-top: 4px; }
+}
 
 /* 10 ─ Formulář */
 .form-card { padding: 22px; }

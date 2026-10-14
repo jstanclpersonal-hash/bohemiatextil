@@ -40,6 +40,7 @@
       header.classList.toggle('is-open', open);
       document.body.classList.toggle('nav-open', open);
       burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Zavřít menu' : 'Menu');
       outside.forEach(function (el) { el.inert = open; });
       if (open) nav.querySelector('a').focus();
       else if (returnFocus) burger.focus();
