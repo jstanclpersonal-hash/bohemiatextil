@@ -23,7 +23,7 @@
   <link rel="preload" href="assets/fonts/figtree-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/figtree-cs.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/style.css">
-  <script>document.documentElement.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-reveal');window.__rvT=setTimeout(function(){document.documentElement.classList.remove('js-reveal')},4000)}</script>
+  <script>(function(d){d.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('js-reveal','js-draw');window.__rvT=setTimeout(function(){d.classList.remove('js-reveal','js-draw')},3000)}})(document.documentElement)</script>
 </head>
 <body>
   <a class="skip-link" href="#obsah">Přeskočit na hlavní obsah</a>
@@ -52,6 +52,7 @@
   </header>
   <main id="obsah" tabindex="-1">
     <div class="page-head page-head--texture">
+      <svg class="page-head__mark" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><use href="assets/img/illustrations.svg#weave-mark"/></svg>
       <div class="container">
         <p class="eyebrow">Ochrana soukromí</p>
         <h1>Zásady ochrany osobních údajů</h1>
@@ -80,6 +81,7 @@
     </section>
   </main>
   <footer class="site-footer">
+    <svg class="site-footer__mark" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><use href="assets/img/illustrations.svg#weave-mark"/></svg>
     <div class="container site-footer__grid">
       <div class="site-footer__brand">
         <a class="site-logo" href="./"><img src="assets/img/logo.webp" width="168" height="55" alt="Bohemia Textil – úvodní stránka" loading="lazy" decoding="async"></a>

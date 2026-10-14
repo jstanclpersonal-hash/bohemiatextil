@@ -1,4 +1,4 @@
-// Bohemia Textil – v2: rok v patičce, jemné odhalování při scrollu, mobilní menu, kontaktní formulář.
+// Bohemia Textil – v2: rok v patičce, decentní pohyb, mobilní menu, kontaktní formulář.
 (function () {
   'use strict';
   var root = document.documentElement;
@@ -7,24 +7,52 @@
   var year = String(new Date().getFullYear());
   document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = year; });
 
-  // 2) Odhalování při scrollu: posun 12 px, 450 ms, rozestup 60 ms, nejvýš 4 prvky po sobě.
-  //    Hlídá jen [data-reveal] a potomky [data-stagger]; bez podpory nebo s omezeným pohybem je vše vidět hned.
+  // 2) Pohyb („mild“, jen bez omezeného pohybu): odhalení se staggerem 80 ms, kreslení ilustrací,
+  //    postup, loga, lesk CTA a count-up čísel. Co je vidět už při načtení, ukáže se bez animace;
+  //    jednorázové efekty se pak spustí po 300 ms. Bez JS / bez podpory je vše vidět a nakreslené.
   clearTimeout(window.__rvT);
   if (root.classList.contains('js-reveal')) {
     if (!('IntersectionObserver' in window)) {
-      root.classList.remove('js-reveal');
+      root.classList.remove('js-reveal', 'js-draw');
     } else {
-      var io = new IntersectionObserver(function (entries) {
-        var shown = entries.filter(function (e) { return e.isIntersecting; });
-        shown.forEach(function (entry, i) {
-          var el = entry.target;
-          io.unobserve(el);
-          el.style.setProperty('--d', Math.min(i, 3) * 60 + 'ms');
-          el.classList.add('is-in');
-          setTimeout(function () { el.classList.add('rv-done'); el.style.removeProperty('--d'); }, 700);
+      var observe = function (sel, threshold, fn, atLoad) {
+        var io = new IntersectionObserver(function (entries) {
+          var n = 0;
+          entries.forEach(function (e) { if (e.isIntersecting) { io.unobserve(e.target); fn(e.target, n++); } });
+        }, { threshold: threshold, rootMargin: '0px 0px -8% 0px' });
+        document.querySelectorAll(sel).forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          if (r.top < innerHeight && r.bottom > 0) atLoad(el); else io.observe(el);
         });
-      }, { rootMargin: '0px 0px -40px 0px' });
-      document.querySelectorAll('[data-reveal], [data-stagger] > *').forEach(function (el) { io.observe(el); });
+      };
+      var play = function (el) { el.classList.add('is-in'); };
+      var draw = function (el) { el.classList.add('is-drawn'); };
+      var later = function (fn) { return function (el) { setTimeout(function () { fn(el); }, 300); }; };
+      var countUp = function (box, delay) {
+        box.querySelectorAll('[data-count]').forEach(function (el) {
+          var end = el.textContent;
+          el.style.minWidth = el.offsetWidth + 'px';
+          el.textContent = end.replace(/\d+/g, '0');
+          setTimeout(function () {
+            var t0;
+            requestAnimationFrame(function step(t) {
+              t0 = t0 || t;
+              var k = Math.min(1, (t - t0) / 900), e = 1 - Math.pow(1 - k, 3);
+              el.textContent = k < 1 ? end.replace(/\d+/g, function (n) { return Math.round(n * e); }) : end;
+              if (k < 1) requestAnimationFrame(step);
+            });
+          }, delay || 0);
+        });
+      };
+      observe('[data-reveal], [data-stagger] > *', 0.15, function (el, i) {
+        el.style.setProperty('--d', Math.min(i, 5) * 80 + 'ms');
+        play(el);
+        setTimeout(function () { el.classList.add('rv-done'); el.style.removeProperty('--d'); }, 1300);
+      }, function (el) { el.classList.add('is-in', 'rv-done'); });
+      observe('.steps[data-anim]', 0.3, play, later(play));
+      observe('.clients__list[data-anim], .cta-band[data-anim]', 0.2, play, later(play));
+      observe('svg.ill', 0.25, draw, later(draw));
+      observe('.hero__facts[data-anim]', 0.5, function (el) { countUp(el); }, function (el) { countUp(el, 300); });
     }
   }
 
@@ -68,6 +96,18 @@
   };
 
   form.noValidate = true;
+
+  var other = form.querySelector('input[value="Jiné"]');
+  var otherHint = document.getElementById('sluzba-jine-hint');
+  if (other && otherHint) {
+    var syncHint = function () { otherHint.hidden = !other.checked; };
+    other.addEventListener('change', syncHint);
+    otherHint.querySelector('a').addEventListener('click', function (e) {
+      e.preventDefault();
+      document.getElementById('f-message').focus();
+    });
+    syncHint();
+  }
 
   function showSuccess() {
     view.hidden = true;
