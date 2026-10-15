@@ -435,16 +435,12 @@ abbr[title] { text-decoration: none; }
 @media (min-width: 768px) { .page-head { padding-block: 64px 56px; } }
 .page-head--texture::before {
   content: ''; position: absolute; inset: 0 0 0 30%; z-index: -1;
-  background: url(../img/head-texture-640.webp) 60% 40% / cover no-repeat;
-  background-image: image-set(url(../img/head-texture-640.avif) type("image/avif"), url(../img/head-texture-640.webp) type("image/webp"));
+  /* R11-04: výřez ilustračního AI obrázku ai-1 (nejde o fotografii z výroby) */
+  background: url(../img/head-texture-ai-640.webp) 60% 40% / cover no-repeat;
+  background-image: image-set(url(../img/head-texture-ai-640.avif) type("image/avif"), url(../img/head-texture-ai-640.webp) type("image/webp"));
   opacity: .14;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 70%);
   mask-image: linear-gradient(90deg, transparent, #000 70%);
-}
-.page-head--pouziti::before {
-  background-image: url(../img/pouziti-duo-800.webp);
-  background-image: image-set(url(../img/pouziti-duo-800.avif) type("image/avif"), url(../img/pouziti-duo-800.webp) type("image/webp"));
-  background-position: 50% 45%; opacity: .18;
 }
 .page-head--kontakt::before {
   content: ''; position: absolute; inset: 0 0 0 35%; z-index: -1;
@@ -684,13 +680,14 @@ abbr[title] { text-decoration: none; }
 
 /* 9 ─ Sekce a stránky */
 
-/* Domů – hero */
-.hero { position: relative; isolation: isolate; overflow: hidden; background: var(--navy-950); color: #fff; }
-.hero__media { position: absolute; inset: 0; z-index: -2; }
-.hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 40%; }
+/* Domů – hero (R11-01): ilustrační AI obrázek kepru v přirozených barvách; levá třetina je sama tmavá.
+   Plocha vlevo od fotky (nad 1536 px) má barvu levého okraje zdroje #010307. */
+.hero { position: relative; isolation: isolate; overflow: hidden; background: #010307; color: #fff; }
+.hero__media { position: absolute; inset: 0 0 0 auto; width: min(100%, 1536px); z-index: -2; } /* ukotveno vpravo, nezvětšuje se */
+.hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; } /* < 768: výřez na výšku */
 .hero::before {
   content: ''; position: absolute; inset: 0; z-index: -1;
-  background: linear-gradient(180deg, rgba(0, 6, 15, .82) 0%, rgba(0, 6, 15, .86) 55%, rgba(0, 6, 15, .94) 100%);
+  background: linear-gradient(180deg, rgba(1, 3, 7, .88) 0%, rgba(1, 3, 7, .80) 65%, rgba(1, 3, 7, .55) 100%);
 }
 .hero__inner { padding-block: var(--space-7) var(--space-7); }
 .hero__content { max-width: 720px; }
@@ -707,16 +704,20 @@ abbr[title] { text-decoration: none; }
 @media (min-width: 480px) { .hero__actions { flex-direction: row; flex-wrap: wrap; } }
 @media (min-width: 768px) {
   .hero__inner { display: flex; align-items: center; min-height: clamp(440px, 58vh, 600px); padding-block: var(--space-8); }
+  .hero__media img { object-position: 75% 40%; }
+  /* 768–1023 px: text zabírá skoro celou šířku, proto zůstává svislý překryv jako na mobilu (vodorovný by pod perexem
+     nechal světlou látku bez překryvu – naměřeno 0,8 : 1) */
 }
 @media (min-width: 1024px) {
-  /* text drží levých ~7/12 šířky, kde je překryv nejhustší (min. 4,5 : 1 i v nejsvětlejším místě fotky) */
-  .hero::before { background: linear-gradient(90deg, rgba(0, 6, 15, .94) 0%, rgba(0, 6, 15, .84) 50%, rgba(0, 6, 15, .55) 72%, rgba(0, 6, 15, .3) 100%); }
+  .hero__media img { object-position: 70% 40%; } /* hřbet záhybu v pravé polovině */
+  /* lehčí překryv než dřív: levá část fotky je tmavá sama, vpravo fotka „svítí“ */
+  .hero::before { background: linear-gradient(90deg, rgba(1, 3, 7, .60) 0%, rgba(1, 3, 7, .50) 45%, rgba(1, 3, 7, .30) 60%, rgba(1, 3, 7, 0) 75%); }
   .hero__content { max-width: min(720px, 62%); }
+  .hero__lead { max-width: min(60ch, 80%); } /* perex končí do 50 % šířky okna, kde je fotka tmavá (≥ 12 : 1) */
 }
-@media (min-width: 1200px) {
-  /* foto má jen 1200 px – na širších obrazovkách zůstává vpravo a doleva se rozplyne */
-  .hero__media { left: auto; width: 1200px; }
-  .hero__media img { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 35%); mask-image: linear-gradient(90deg, transparent 0, #000 35%); }
+@media (min-width: 1537px) {
+  /* fotka má 1536 px: širší obrazovka ji nezvětší, levých 12 % se rozpustí do #010307 */
+  .hero__media img { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 12%); mask-image: linear-gradient(90deg, transparent 0, #000 12%); }
 }
 
 /* Domů – služby: ilustrované karty (R4-04) */
@@ -894,10 +895,16 @@ p.diagram__legend { color: var(--slate-600); }
 /* R8-04: v jednom sloupci (fotka pod perexem) motiv začíná až pod textem a přesahuje jen horní hranu fotky (~20 px) */
 @media (max-width: 1023px) { .page-head__media .page-head__mark { top: -32px; } }
 .page-head__media img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); }
-/* O nás – makro keprové vazby (R7-04): desktop 4 : 3 do 440 px, mobil výřez 16 : 9 do výšky 220 px */
-.page-head--about .page-head__media img { border: 1px solid rgba(255, 255, 255, .08); object-position: 50% 45%; }
-@media (max-width: 1023px) { .page-head--about .page-head__media img { aspect-ratio: 16 / 9; max-height: 220px; object-position: 55% 45%; } }
-@media (min-width: 1024px) { .page-head--about .page-head__media { justify-self: end; width: 100%; max-width: 440px; } }
+/* O nás a Materiály – ilustrační fotka v dělené hlavičce (R7-04, R11-02, R11-03):
+   desktop 4 : 3 do 440 px, mobil výřez 16 : 9 do výšky 220 px */
+.page-head--about .page-head__media img, .page-head--materialy .page-head__media img { border: 1px solid rgba(255, 255, 255, .08); }
+.page-head--about .page-head__media img { object-position: 50% 50%; }
+.page-head--materialy .page-head__media img { object-position: 55% 50%; }
+@media (max-width: 1023px) {
+  .page-head--about .page-head__media img, .page-head--materialy .page-head__media img { aspect-ratio: 16 / 9; max-height: 220px; }
+  .page-head--materialy .page-head__media img { object-position: 50% 45%; }
+}
+@media (min-width: 1024px) { .page-head--about .page-head__media, .page-head--materialy .page-head__media { justify-self: end; width: 100%; max-width: 440px; } }
 @media (min-width: 1024px) {
   .page-head--split .page-head__inner { grid-template-columns: 7fr 5fr; gap: var(--space-7); }
 }

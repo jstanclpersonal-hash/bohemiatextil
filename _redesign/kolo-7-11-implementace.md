@@ -278,3 +278,118 @@ Na všech 7 stránkách (+ `porovnani`) jsem změřil skutečnou velikost na š�
 - **Omezený pohyb:** 0 animací, vše nakreslené. Bez JS je vše vidět. Formulář „Jiné“ je v pořádku (s podvrženou odpovědí).
 - **Kreslení:** diagram a spoty snování a tkaní se dál kreslí shora dolů a končí s `is-drawn` (`r9-drawcheck.mjs`). Vzorníky jsou statický sprite jako dosud.
 - **Sprite:** 16 436 → 19 976 B (gzip 3 560 → 4 280 B). Vzorník má hladké křivky a jsou čtyři skoro stejné, gzip to z velké části srovná.
+
+---
+
+# Kolo 11 – implementace (AI obrázky, větev `v2-ai-foto`)
+
+**Pravidla:**
+- měnil jsem jen soubory ve `v2/`;
+- zdroje v `scratchpad/ai-zdroje/` jsem jen četl;
+- stránky jdou přes `build.mjs`;
+- s gitem jsem nepracoval a `porovnani.html` je nedotčený (čas změny 10-14 14:07, nemá odkazy na obrázky).
+
+**Skripty:**
+- `imgtools/masters-r11.py`: předlohy podle výřezů;
+- `imgtools/encode-r11.mjs`: WebP + AVIF;
+- `imgtools/og-r11.mjs` a `shot/r11-og.mjs`: sdílecí obrázek;
+- kontroly v `shot/r11-*.mjs`.
+
+**Výstupy:** `shots/r11-impl/`.
+
+**Pravidla pro AI obrázky:**
+- všude `alt=""`, přirozené barvy, bez popisků a bez tvrzení o „naší výrobě“;
+- u každého použití je komentář `<!-- ilustrační obrázek (AI), nejde o fotografii z výroby -->`: u fotek v HTML; u textur hlaviček v HTML Služeb a Ochrany a navíc v CSS; u `og:image` v `<head>` všech stránek;
+- každý obrázek je jako fotka použitý jednou (hero, Materiály, O nás); textura a `og.jpg` jsou výjimky ze zadání.
+
+## Stav bodů
+
+| Bod | Stav | Co jsem udělal |
+|---|---|---|
+| R11-01 Hero Domů | hotovo, 1 odchylka | `hero-ai-1536/1200/960` (desktop) a výřez na výšku `hero-ai-m-768/540` (< 768 px přes `<source media>`). **Šíře > 1536 px:** fotka je ukotvená vpravo (`width: min(100%, 1536px)`), nezvětšuje se, plocha vlevo má `#010307` a od 1537 px se levých 12 % rozpouští maskou. **Ořez:** `object-position` 70 % / 40 % (≥ 1024 px), 75 % / 40 % (768–1023 px), 50 % / 30 % (mobil). **Překryv:** ≥ 1024 px vodorovný podle zadání (.60 → .50 při 45 % → .30 při 60 % → 0 při 75 %), < 768 px svislý podle zadání. Odchylka 768–1023 px viz bod 1 níže. `hero-settle` zůstal, parallax hero není. |
+| R11-02 Materiály | hotovo | Dělená hlavička jako na Laseru a O nás: text vlevo, `ai-5` vpravo, motiv `weave-mark` za fotkou. **Desktop:** 4 : 3, max. 440 px, rámeček, `55% 50%`. **Mobil:** 16 : 9, max. 220 px, `50% 45%`. `fetchpriority="high"`. Textura `pouziti-duo-800` z hlavičky odpadla (pravidlo `.page-head--pouziti` je pryč); soubor zůstává, protože ho používá sekce Použití na Domů. |
+| R11-03 O nás | hotovo | `ai-6` místo kepru: 4 : 3 do 440 px na desktopu, 16 : 9 do 220 px na mobilu, `50% 50%`. `onas-twill-*` (6 souborů) je smazané. |
+| R11-04 Textura hlaviček | hotovo | `head-texture-ai-640` (výřez `x 700–1536`, `y 100–660`) má průhlednost .14 a masku jako dřív. **Smazané:** `hero-1200/800` a `head-texture-640` (WebP i AVIF). Ve v2 tak nezůstal nic ze starého `hero.webp`; kořenový `assets/img/hero.webp` je nedotčený. |
+| R11-05 `og.jpg` | hotovo, 1 odchylka | Podklad: zdroj zmenšený na 1200 × 800, výřez `y 85–715`. **Text:** logo, eyebrow, H1 a fakta vlevo, bez překryvu (motiv `weave-mark` jsem vynechal). **Kontrast:** eyebrow 9,3 : 1, H1 5,6 : 1, fakta 10,3 : 1. **Velikost:** 86,5 kB; kvalita viz bod 2. |
+| R11-06 Akceptace | hotovo | viz níže |
+
+## Odchylky
+1. **Hero 768–1023 px.** Text tu zabírá skoro celou šířku, takže vodorovný překryv ze zadání nechal perex nad světlou látkou bez překryvu. Naměřeno 0,77 : 1 při 768 px a 1,7–2,4 : 1 při 1024–1440 px. Zvednutí pásu 45–60 % o 0,1 na tento rozdíl nestačí, proto:
+   - **768–1023 px:** zůstává svislý překryv jako na mobilu (fotka je tu tlumenější);
+   - **≥ 1024 px:** překryv je přesně podle zadání a perex má `max-width: min(60ch, 80%)`, takže končí do 48–50 % šířky okna, kde je fotka sama tmavá. Nadpis je beze změny.
+
+   Výsledek: perex má všude ≥ 9 : 1.
+2. **`og.jpg`.** Zadání „mozjpeg q86 a ≤ 90 kB“ nejde splnit obojí: q86 dává 113 kB kvůli husté textuře. Přednost dostal rozpočet: q78 = 86,5 kB. Text je i ve výřezu 2× ostrý.
+3. **Materiály a O nás.**
+   - **Varianty 480w navíc:** desktop při DPR 1 zobrazuje 440 px a jinak by stahoval 640w.
+   - **AVIF pevně q46:** AVIF podle SSIM by u 960w přesáhl rozpočet (88 / 93 kB). Výřez 2× proti předloze je bez viditelného rozdílu, jen nepatrně zjemněná vazba.
+   - **WebP** zůstává q72 podle zadání.
+
+## Velikosti souborů a rozpočty
+AVIF kvalita a velikost:
+
+| Soubor | WebP | AVIF | Rozpočet AVIF |
+|---|---|---|---|
+| hero-ai-1536 | 70,2 kB (q60) | 38,5 kB (q43) | ≤ 90 ✓ |
+| hero-ai-1200 | 49,2 | 27,7 (q43) | ≤ 60 ✓ |
+| hero-ai-960 | 35,5 | 21,6 (q44) | ≤ 40 ✓ |
+| hero-ai-m-768 / 540 | 38,9 / 24,2 | 22,2 / 14,1 (q44) | ≤ 60 ✓ |
+| materialy-role-960 / 640 / 480 / m-768 | 121,9 / 51,4 / 26,0 / 61,3 (q72) | 68,0 / 28,7 / 14,6 / 32,6 (q46) | 960 ≤ 70 ✓ |
+| onas-latka-960 / 640 / 480 / m-768 | 127,6 / 68,2 / 39,9 / 69,5 (q72) | 73,9 / 42,7 / 25,4 / 43,9 (q46) | – |
+| head-texture-ai-640 | 23,1 (q40) | 15,8 (q38) | – |
+| og.jpg | – | – | 86,5 kB JPEG ≤ 90 ✓ |
+
+Složka `v2/assets/img` má teď 1,85 MB. Narostla hlavně o WebP zálohy 960w, které stahují jen prohlížeče bez AVIF.
+
+## Kontrast (nejsvětlejší pixel pod každým řádkem textu, `shot/r11-contrast.mjs`)
+
+| Šířka | Eyebrow | H1 | Perex | „nebo zavolejte…“ |
+|---|---|---|---|---|
+| 390 | 9,45 | 19,75 | 11,92 | 11,93 |
+| 768 | 9,45 | 19,33 | 9,03 | 11,65 |
+| 1024 | 9,11 | 19,38 | 12,36 | 12,79 |
+| 1280 | 9,28 | 19,47 | 12,61 | 12,81 |
+| 1440 | 9,27 | 19,52 | 12,61 | 12,75 |
+| 1920 | 9,43 | 19,61 | 12,62 | 12,82 |
+
+Hlavičky podstránek na všech šesti šířkách:
+- Materiály a O nás mají text vedle fotky: 8,1–20,3 : 1;
+- Služby a Ochrana s novou texturou: nejhorší 5,22 : 1 (perex Služeb při 768 px).
+
+## LCP a CLS (pomalé 4G + CPU 4×)
+- **Rozhodující je měření střídavě A/B** (`shot/r11-lcp-ab.mjs`, 8 + 8 běhů). Stejná stránka, jen se střídá hero kola 10 a kola 11; soubory kola 10 byly dočasně ve `v2/assets/img/_r10tmp/` a po měření jsem složku smazal.
+  - Mobil: 1 082 → 1 046 ms (**−3,3 %**).
+  - Desktop: 1 316 → 1 320 ms (**+0,3 %**).
+  - Limit +10 % je splněný.
+- **Měření po sobě** stejným skriptem jako v kole 7: před 1 000 / 1 200 ms, po 1 316 / 1 364 ms. Rozptyl mezi běhy je tu ale 964–1 392 ms a stroj mezitím „driftoval“, proto platí střídavé A/B.
+- **Proti číslům v zadání** (mobil 1 240, desktop 1 636 ms) jsou nové hodnoty v obou měřeních nižší.
+- **CLS:** 0–0,0005 na Domů, Materiálech, O nás, Službách i Ochraně (`r11-perf.mjs`), limit 0,02.
+
+## Bajty obrázků na stránku (před → po, kB)
+
+| Stránka | Desktop | Mobil |
+|---|---|---|
+| Domů | 106,9 → **103,5** | 90,1 → **89,4** |
+| Služby | 59,3 → 62,3 | 32,3 → 35,4 |
+| Materiály | 15,3 → 24,3 | 15,3 → 42,3 |
+| O nás | 45,8 → 49,6 | 57,8 → 68,2 |
+| Ochrana soukromí | 22,4 → 25,4 | 22,4 → 25,4 |
+| Laser, Kontakt | beze změny | beze změny |
+
+Domů se nezvětšil, limit +30 kB je splněný. Materiály mají novou fotku místo nevýrazné textury.
+
+## Kontroly
+- **Odkazy:** žádný odkaz na smazaný soubor, žádný nepoužitý soubor (kontrola zahrnuje i `porovnani.html`). Audit `sizes` (7 stránek × 18 šířek) je bez neshod.
+- **Regrese (`checks/`):**
+  - 320 / 390 / 768 / 1024 / 1440 / 1920 px: konzole čistá, žádné 404, žádné vodorovné přetečení;
+  - omezený pohyb: 0 animací, 0 transformací (`hero-settle` je vypnutý);
+  - bez JS je vše vidět;
+  - „Jiné“ funguje (s podvrženou odpovědí);
+  - kreslení diagramů a spotů beze změny.
+- **Snímky:**
+  - všech 7 stránek desktop + mobil (`*-desktop-*`, `*-mobile-*`, `-full`);
+  - `widths/`: Domů, Materiály, O nás, Služby a Ochrana na 320 / 390 / 768 / 1024 / 1440 / 1920 px (první obrazovka i celá stránka) a hero na 2560 px;
+  - `before/`: Domů, Materiály a O nás před změnou.
+
+## Pro majitele (volitelné, neprovedeno)
+Krátká poznámka v Ochraně soukromí nebo v patičce, např. „Ilustrační obrázky na webu byly vytvořeny s pomocí AI.“ Je to rozhodnutí majitele, proto jsem ji nepřidal.
