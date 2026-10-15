@@ -49,6 +49,20 @@
           }, delay || 0);
         });
       };
+      // „4 materiály“: odpočet 1 → 4 po 250 ms a k němu postupně naskakují zkratky PES · PA · PP · bavlna
+      var countMat = function (box, delay) {
+        box.querySelectorAll('[data-count-mat]').forEach(function (el) {
+          var fact = el.closest('.fact'), ticks = fact.querySelectorAll('.mat-tick'), n = ticks.length;
+          var set = function (i) {
+            el.textContent = i + ' ' + (i === 1 ? 'materiál' : i ? 'materiály' : 'materiálů');
+            ticks.forEach(function (t, k) { t.classList.toggle('is-on', k < i); });
+          };
+          el.style.minWidth = el.offsetWidth + 'px';
+          fact.classList.add('is-ticking');
+          set(0);
+          for (var i = 1; i <= n; i++) setTimeout(set, (delay || 0) + (i - 1) * 250, i);
+        });
+      };
       observe('[data-reveal], [data-stagger] > *', 0.15, function (el, i) {
         el.style.setProperty('--d', Math.min(i, 5) * 80 + 'ms');
         play(el);
@@ -57,7 +71,7 @@
       observe('.steps[data-anim]', 0.3, play, later(play));
       observe('.clients__list[data-anim], .cta-band[data-anim]', 0.2, play, later(play));
       observe('svg.ill', 0.25, draw, later(draw));
-      observe('.hero__facts[data-anim]', 0.5, function (el) { countUp(el); }, function (el) { countUp(el, 300); });
+      observe('.hero__facts[data-anim]', 0.5, function (el) { countUp(el); countMat(el); }, function (el) { countUp(el, 300); countMat(el, 300); });
     }
   }
 
