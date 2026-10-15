@@ -746,9 +746,10 @@ abbr[title] { text-decoration: none; }
   background: var(--blue-50); border-bottom: 1px solid var(--line); border-radius: var(--radius-card) var(--radius-card) 0 0;
 }
 .mat-card__swatch .sw { width: 96px; height: 96px; }
-/* text visačky: štítek je ve vzorníku (96 × 96) na x 66–96, y 26–42 (dírka nahoře uprostřed); vzorník je v okně na středu, 12 px od horní hrany */
+/* text etikety (R9-01): etiketa je ve vzorníku (96 × 96) všitá do splývající látky vlevo dole, střed (44,9; 61,5),
+   natočená −18° jako látka; vzorník je v okně na středu, 12 px od horní hrany. Na mobilu (48 px) se etiketa ani text nekreslí. */
 .sw-label {
-  position: absolute; left: calc(50% + 33px); top: 48.5px; transform: translate(-50%, -50%);
+  position: absolute; left: calc(50% - 3.1px); top: 73.5px; transform: translate(-50%, -50%) rotate(-18deg);
   font: 700 .6875rem/1 var(--font-head); letter-spacing: .02em; color: var(--ink);
 }
 
@@ -890,6 +891,8 @@ p.diagram__legend { color: var(--slate-600); }
 .page-head__media .page-head__mark { right: 24px; top: -48px; margin: 0; width: 180px; height: 180px; z-index: -1; }
 .page-head__media img { position: relative; }
 @media (min-width: 768px) { .page-head__media .page-head__mark { width: 240px; height: 240px; top: -72px; right: 32px; margin: 0; } }
+/* R8-04: v jednom sloupci (fotka pod perexem) motiv začíná až pod textem a přesahuje jen horní hranu fotky (~20 px) */
+@media (max-width: 1023px) { .page-head__media .page-head__mark { top: -32px; } }
 .page-head__media img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); }
 /* O nás – makro keprové vazby (R7-04): desktop 4 : 3 do 440 px, mobil výřez 16 : 9 do výšky 220 px */
 .page-head--about .page-head__media img { border: 1px solid rgba(255, 255, 255, .08); object-position: 50% 45%; }
@@ -1064,6 +1067,7 @@ p.diagram__legend { color: var(--slate-600); }
   .mat-card__swatch { grid-row: span 2; align-self: start; width: 48px; height: 48px; margin: 0; background: none; border: 0; }
   .mat-card__swatch .sw { width: 48px; height: 48px; }
   .sw-label { display: none; }
+  .mat-card__swatch .sw { --sw-detail: 0; --sw-tag: 0; } /* 48 px: role, splývající látka a pruh – bez etikety */
   .mat-grid .chips { grid-column: 2; margin-top: var(--space-2); gap: 6px; }
 
   /* diagramy: menší forma (max. 200 px výšky); legenda a opakující se popisek jen pro čtečky (obsah je hned pod v textu) */
