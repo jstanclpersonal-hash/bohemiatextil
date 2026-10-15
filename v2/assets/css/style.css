@@ -1244,6 +1244,10 @@ select.input {
   }
   @keyframes sw-tag { from { opacity: 0; } }
 
+  /* „4 materiály“ v hero: zkratky naskakují s odpočtem (třída is-ticking jen z JS, bez JS je vše vidět) */
+  .fact.is-ticking .mat-tick { display: inline-block; transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out); }
+  .fact.is-ticking .mat-tick:not(.is-on) { opacity: 0; transform: translateY(6px); }
+
   /* loga odběratelů: jen průhlednost, rozestup 80 ms */
   .js-reveal .clients__list[data-anim]:not(.is-in) img { opacity: 0; }
   .js-reveal .clients__list.is-in img { transition: opacity 500ms ease; }
