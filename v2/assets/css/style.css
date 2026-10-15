@@ -118,7 +118,7 @@
 }
 @media (min-width: 480px) { :root { --fs-body: 1.0625rem; } }
 @media (min-width: 768px) { :root { --grid-gap: 24px; --head-gap: 40px; } }
-@media (min-width: 961px) { :root { --header-h: 72px; } }
+@media (min-width: 1024px) { :root { --header-h: 72px; } }
 @media (min-width: 1024px) { :root { --grid-gap: 32px; } }
 
 /* 3 ─ Základ */
@@ -141,6 +141,7 @@ body {
 body.nav-open { overflow: hidden; }
 img, svg { display: block; max-width: 100%; }
 img { height: auto; }
+picture { display: contents; } /* <picture> jen vybírá formát (AVIF/WebP), rozložení řídí <img> */
 h1, h2, h3, p, ul, ol, dl, dd, figure, address, fieldset { margin: 0; }
 ul[class], ol[class] { list-style: none; padding: 0; }
 address { font-style: normal; }
@@ -434,15 +435,21 @@ abbr[title] { text-decoration: none; }
 @media (min-width: 768px) { .page-head { padding-block: 64px 56px; } }
 .page-head--texture::before {
   content: ''; position: absolute; inset: 0 0 0 30%; z-index: -1;
-  background: url(../img/hero-800.webp) 60% 40% / cover no-repeat;
+  background: url(../img/head-texture-640.webp) 60% 40% / cover no-repeat;
+  background-image: image-set(url(../img/head-texture-640.avif) type("image/avif"), url(../img/head-texture-640.webp) type("image/webp"));
   opacity: .14;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 70%);
   mask-image: linear-gradient(90deg, transparent, #000 70%);
 }
-.page-head--pouziti::before { background-image: url(../img/pouziti-duo-800.webp); background-position: 50% 45%; opacity: .18; }
+.page-head--pouziti::before {
+  background-image: url(../img/pouziti-duo-800.webp);
+  background-image: image-set(url(../img/pouziti-duo-800.avif) type("image/avif"), url(../img/pouziti-duo-800.webp) type("image/webp"));
+  background-position: 50% 45%; opacity: .18;
+}
 .page-head--kontakt::before {
   content: ''; position: absolute; inset: 0 0 0 35%; z-index: -1;
   background: url(../img/kontakt-duo-1024.webp) 30% 40% / cover no-repeat;
+  background-image: image-set(url(../img/kontakt-duo-1024.avif) type("image/avif"), url(../img/kontakt-duo-1024.webp) type("image/webp"));
   opacity: .28;
   -webkit-mask-image: linear-gradient(270deg, #000 30%, transparent);
   mask-image: linear-gradient(270deg, #000 30%, transparent);
@@ -487,6 +494,9 @@ abbr[title] { text-decoration: none; }
 .ill .FA { fill: var(--ill-accent); }
 .ill .MF { fill: var(--ill-muted); }
 .ill .dash { stroke-dasharray: 5 4; }
+.ill .w3 { stroke-width: 3; }
+.ill .dashk { stroke-dasharray: 4 4; }
+.ill .side-flange { fill-opacity: .55; }
 .ill .mask-line { fill: none; stroke: #fff; stroke-width: 14; stroke-linecap: round; }
 .ill .laser-dot {
   fill: var(--blue-500); opacity: 0;
@@ -548,7 +558,7 @@ abbr[title] { text-decoration: none; }
   transform: scaleX(0); transition: transform 220ms var(--ease-out);
 }
 .site-nav__list a:hover::after, .site-nav__list a[aria-current="page"]::after { transform: none; }
-.site-nav__home, .site-nav__extra { display: none; }
+.site-nav__extra { display: none; }
 
 .header-phone {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
@@ -577,10 +587,17 @@ abbr[title] { text-decoration: none; }
 .site-header.is-open .burger__box::before { transform: translateY(7px) rotate(45deg); }
 .site-header.is-open .burger__box::after { transform: translateY(-7px) rotate(-45deg); }
 
-@media (min-width: 961px) {
+@media (min-width: 1024px) {
   .site-header__inner { gap: var(--space-4); }
   .site-logo img { width: 168px; }
-  .site-nav { margin-right: var(--space-2); }
+  .site-nav { margin-right: var(--space-4); } /* menu → telefon ≥ 32 px */
+}
+/* 1024–1199 px: „Domů“ je v menu, proto užší odkazy a menší mezery (telefon jen jako ikona) */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .site-header__inner { gap: var(--space-3); }
+  .site-nav { margin-right: 20px; }
+  .site-nav__list a { padding-inline: 8px; }
+  .site-nav__list a::after { left: 8px; right: 8px; }
 }
 @media (min-width: 1280px) {
   .site-nav__list a { padding-inline: 14px; }
@@ -589,8 +606,8 @@ abbr[title] { text-decoration: none; }
   .header-phone__num { display: inline; }
 }
 
-/* mobilní menu (≤ 960 px) */
-@media (max-width: 960px) {
+/* mobilní menu (≤ 1023 px) */
+@media (max-width: 1023px) {
   .header-cta { display: none; }
   .js .burger { display: grid; }
   .js .site-nav {
@@ -603,7 +620,6 @@ abbr[title] { text-decoration: none; }
   .site-header.is-open::before { background: var(--navy-950); }
   .site-header.is-open .site-nav { display: flex; flex-direction: column; }
   .js .site-nav__list { flex-direction: column; align-items: stretch; }
-  .js .site-nav__home { display: block; }
   .js .site-nav__list a {
     min-height: 56px; padding: 0 0 0 var(--space-4);
     border-bottom: 1px solid var(--line-dark); border-radius: 0;
@@ -730,10 +746,11 @@ abbr[title] { text-decoration: none; }
   background: var(--blue-50); border-bottom: 1px solid var(--line); border-radius: var(--radius-card) var(--radius-card) 0 0;
 }
 .mat-card__swatch .sw { width: 96px; height: 96px; }
-/* text visacího štítku: štítek je ve vzorníku (96 × 96) na x 60–94, y 4–22 (dírka vlevo); vzorník je v okně na středu, 12 px od horní hrany */
+/* text etikety (R9-01): etiketa je ve vzorníku (96 × 96) všitá do splývající látky vlevo dole, střed (44,9; 61,5),
+   natočená −18° jako látka; vzorník je v okně na středu, 12 px od horní hrany. Na mobilu (48 px) se etiketa ani text nekreslí. */
 .sw-label {
-  position: absolute; left: calc(50% + 33.5px); top: 25px; transform: translate(-50%, -50%);
-  font: 700 .625rem/1 var(--font-head); letter-spacing: .04em; color: var(--ink);
+  position: absolute; left: calc(50% - 3.1px); top: 73.5px; transform: translate(-50%, -50%) rotate(-18deg);
+  font: 700 .6875rem/1 var(--font-head); letter-spacing: .02em; color: var(--ink);
 }
 
 /* Použití: fotopodklad + dlaždice s ilustracemi (R4-05) */
@@ -845,6 +862,7 @@ abbr[title] { text-decoration: none; }
   font: 600 .8125rem/1.3 var(--font-body); color: var(--ink); white-space: nowrap;
 }
 .dim--right { transform: translate(0, -50%); }
+.view-label { position: absolute; top: 0; transform: translateY(-30%); font-size: var(--fs-small); line-height: 1; color: var(--slate-600); } /* nad konci nití (y 20), aby se text nekřížil s první nití */
 .diagram__legend { display: flex; flex-wrap: wrap; gap: 4px var(--space-5); margin: var(--space-3) 0 0; padding: 0; list-style: none; font-size: var(--fs-small); color: var(--ink); }
 p.diagram__legend { color: var(--slate-600); }
 .diagram__legend li { display: flex; align-items: center; gap: 8px; }
@@ -873,9 +891,13 @@ p.diagram__legend { color: var(--slate-600); }
 .page-head__media .page-head__mark { right: 24px; top: -48px; margin: 0; width: 180px; height: 180px; z-index: -1; }
 .page-head__media img { position: relative; }
 @media (min-width: 768px) { .page-head__media .page-head__mark { width: 240px; height: 240px; top: -72px; right: 32px; margin: 0; } }
+/* R8-04: v jednom sloupci (fotka pod perexem) motiv začíná až pod textem a přesahuje jen horní hranu fotky (~20 px) */
+@media (max-width: 1023px) { .page-head__media .page-head__mark { top: -32px; } }
 .page-head__media img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); }
-.page-head--about .page-head__media img { object-position: 30% 40%; }
-@media (max-width: 1023px) { .page-head--about .page-head__media img { max-height: 220px; } }
+/* O nás – makro keprové vazby (R7-04): desktop 4 : 3 do 440 px, mobil výřez 16 : 9 do výšky 220 px */
+.page-head--about .page-head__media img { border: 1px solid rgba(255, 255, 255, .08); object-position: 50% 45%; }
+@media (max-width: 1023px) { .page-head--about .page-head__media img { aspect-ratio: 16 / 9; max-height: 220px; object-position: 55% 45%; } }
+@media (min-width: 1024px) { .page-head--about .page-head__media { justify-self: end; width: 100%; max-width: 440px; } }
 @media (min-width: 1024px) {
   .page-head--split .page-head__inner { grid-template-columns: 7fr 5fr; gap: var(--space-7); }
 }
@@ -1045,11 +1067,14 @@ p.diagram__legend { color: var(--slate-600); }
   .mat-card__swatch { grid-row: span 2; align-self: start; width: 48px; height: 48px; margin: 0; background: none; border: 0; }
   .mat-card__swatch .sw { width: 48px; height: 48px; }
   .sw-label { display: none; }
+  .mat-card__swatch .sw { --sw-detail: 0; --sw-tag: 0; } /* 48 px: role, splývající látka a pruh – bez etikety */
   .mat-grid .chips { grid-column: 2; margin-top: var(--space-2); gap: 6px; }
 
   /* diagramy: menší forma (max. 200 px výšky); legenda a opakující se popisek jen pro čtečky (obsah je hned pod v textu) */
   .diagram { padding: var(--space-3); }
   .diagram__art { max-width: 256px; }
+  .diagram--wide .diagram__art { max-width: 360px; }
+  .view-label { font-size: .75rem; transform: translateY(-50%); }
   .dim { font-size: .75rem; }
   .diagram__legend { display: none; }
   .diagram--repeat figcaption {
@@ -1223,6 +1248,7 @@ select.input {
   .js-draw .ill .o.draw, .js-draw .ill .a.draw { stroke-width: calc(2 * var(--k, 1)); }
   .js-draw .ill .t.draw { stroke-width: calc(1.5 * var(--k, 1)); }
   .js-draw .ill .m.draw, .js-draw .ill .k.draw { stroke-width: calc(1 * var(--k, 1)); }
+  .js-draw .ill .w3.draw { stroke-width: calc(3 * var(--k, 1)); }
   .js-draw .ill .fill { opacity: 0; }
   .js-draw .ill.is-drawn .draw { stroke-dashoffset: 0; transition: stroke-dashoffset var(--dur-4) var(--ease-out); }
   .js-draw .ill.is-drawn .draw.acc { transition-delay: 300ms; }

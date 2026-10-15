@@ -36,7 +36,7 @@ Až bude v2 schválená k nasazení:
 3. V `kontakt.html` změnit skryté pole `_next` na `https://www.bohemiatextil.cz/kontakt?odeslano=1`.
 4. Ve všech stránkách změnit `og:image` z `…/v2/assets/img/og.jpg` na `…/assets/img/og.jpg`.
 5. Zkontrolovat `sitemap.xml` a přesměrování ze starých Wix adres.
-6. Projet stránky nástroji axe a Lighthouse v Chromu.
+6. Projet stránky nástroji axe a Lighthouse v Chromu a v DevTools ověřit, že se obrázky `.avif` posílají jako `image/avif`.
 
 Vizuály v2: vlastní vektorové ilustrace (`v2/assets/img/illustrations.svg` a inline SVG ve stránkách) a fotky
 z původního webu v tmavomodrém tónu. Animace jsou jen v CSS/JS bez knihoven a při systémovém „omezit pohyb“ se vypnou.
