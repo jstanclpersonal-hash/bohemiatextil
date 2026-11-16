@@ -19,26 +19,12 @@ Statická kopie webu www.bohemiatextil.cz (původně na Wixu). Čisté HTML + CS
 
 Hlavička a patička jsou v každém HTML souboru zvlášť – při změně (např. telefonu) je potřeba upravit všech 7 stránek.
 
-## Návrh v2 (redesign)
+## Design
 
-Ve složce `v2/` je nová verze webu, vzniklá ve třech kolech: designér udělal audit, vývojář úpravy zapracoval,
-designér je zkontroloval a dal další zpětnou vazbu. Původní web v kořeni repozitáře zůstává beze změny kvůli srovnání.
+Web běží v novém designu (dřívější návrh „v2“, nasazený do kořene 2026-11-16). Původní kopie webu z Wixu
+je v historii gitu. Staré adresy `/v2/` přesměrovávají na úvodní stránku.
 
-- Nová verze: `/v2/`, srovnání obou verzí vedle sebe: `/v2/porovnani`.
-- `v2/` má vlastní `assets/` (nové CSS, JS, ikony, zmenšené obrázky). Hlavička a patička jsou opět v každé stránce zvlášť.
-- Stránky v2 mají `noindex` a `robots.txt` má `Disallow: /v2/`, aby návrh nekonkuroval původnímu webu ve vyhledávačích.
-- Zápisy z jednotlivých kol (audit, kontroly, seznam obsahu k doplnění od majitele) jsou ve složce `_redesign/`
-  (složky s podtržítkem GitHub Pages nepublikuje).
-
-Až bude v2 schválená k nasazení:
-1. Přesunout obsah `v2/` do kořene místo původních stránek (kromě `porovnani.html`).
-2. Odstranit `<meta name="robots" content="noindex">` ze všech stránek a řádek `Disallow: /v2/` z `robots.txt`.
-3. V `kontakt.html` změnit skryté pole `_next` na `https://www.bohemiatextil.cz/kontakt?odeslano=1`.
-4. Ve všech stránkách změnit `og:image` z `…/v2/assets/img/og.jpg` na `…/assets/img/og.jpg`.
-5. Zkontrolovat `sitemap.xml` a přesměrování ze starých Wix adres.
-6. Projet stránky nástroji axe a Lighthouse v Chromu a v DevTools ověřit, že se obrázky `.avif` posílají jako `image/avif`.
-
-Vizuály v2: vlastní vektorové ilustrace (`v2/assets/img/illustrations.svg` a inline SVG ve stránkách) a fotky
+Vizuály: vlastní vektorové ilustrace (`assets/img/illustrations.svg` a inline SVG ve stránkách) a fotky
 z původního webu v tmavomodrém tónu. Animace jsou jen v CSS/JS bez knihoven a při systémovém „omezit pohyb“ se vypnou.
 
 ## Animace
