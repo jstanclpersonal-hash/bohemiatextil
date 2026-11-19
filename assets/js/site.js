@@ -170,7 +170,7 @@
   function setSending(on) {
     button.disabled = on;
     button.textContent = on ? 'Odesílám…' : buttonLabel;
-    statusEl.textContent = on ? 'Odesílám poptávku…' : '';
+    statusEl.textContent = on ? 'Odesílám poptávku… Může to trvat až minutu, nezavírejte prosím stránku.' : '';
     form.setAttribute('aria-busy', String(on));
   }
 
@@ -209,7 +209,14 @@
         setSending(false);
         showSuccess();
       })
-      .catch(function () {
+      .catch(function (err) {
+        // AJAX selhal (výpadek, pomalá odpověď, aktivace) – zkusit klasické odeslání,
+        // FormSubmit pak přesměruje zpět na kontakt?odeslano=1. Chybu ukázat jen když to nejde.
+        if (window.console) console.warn('Formulář: AJAX odeslání selhalo', err);
+        if (!form.dataset.fallback) {
+          form.dataset.fallback = '1';
+          try { HTMLFormElement.prototype.submit.call(form); return; } catch (e) { /* pokračovat na chybu */ }
+        }
         setSending(false);
         showError();
       });
